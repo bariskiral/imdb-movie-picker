@@ -1,14 +1,18 @@
 document.addEventListener("DOMContentLoaded", function () {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    const tabId = tabs[0].id;
-    chrome.scripting.executeScript({
-      target: { tabId: tabId },
-      function: loadButtonClicker
+  document
+    .getElementById("contentLoadBtn")
+    .addEventListener("click", function () {
+      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        const tabId = tabs[0].id;
+        chrome.scripting.executeScript({
+          target: { tabId: tabId },
+          function: loadButtonClicker
+        });
+      });
     });
-  });
 
   document
-    .getElementById("pickerButton")
+    .getElementById("randomPickerBtn")
     .addEventListener("click", function () {
       chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         const tabId = tabs[0].id;
@@ -29,15 +33,16 @@ const loadButtonClicker = () => {
     setTimeout(() => {
       loadButtonClicker();
       scrollToAnchor();
-    }, 1000);
+    }, 250);
   }
 };
 
 const collectMovies = () => {
   const movies = document.querySelectorAll(".lister-item-header a");
-  movies.forEach((movie, index) => {
-    return console.log(index + ":" + movie.textContent);
-  });
+  const randomNumber = Math.floor(Math.random() * movies.length);
+  console.log(randomNumber);
+  console.log(movies[randomNumber].textContent);
+  movies[randomNumber].scrollIntoView();
 };
 
 const scrollToAnchor = () => {
