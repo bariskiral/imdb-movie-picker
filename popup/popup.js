@@ -25,18 +25,24 @@ const loadButtonClicker = () => {
 
   if (loadButton) {
     loadButton.click();
-    console.log("clicked");
-    //window.scrollTo(0, document.body.scrollHeight);
-    loadButtonClicker();
+
+    setTimeout(() => {
+      loadButtonClicker();
+      scrollToAnchor();
+    }, 1000);
   }
-  return;
 };
 
 const collectMovies = () => {
-  const movies = document.querySelectorAll(".lister-item");
-  // const movieTitles = Array.from(movies).map(movie => {
-  //   return movie.querySelector(".lister-item-header a").textContent;
-  // });
+  const movies = document.querySelectorAll(".lister-item-header a");
+  movies.forEach((movie, index) => {
+    return console.log(index + ":" + movie.textContent);
+  });
+};
 
-  console.log(movies[200]);
+const scrollToAnchor = () => {
+  const listerPageAnchor = document.querySelectorAll(".lister-page-anchor");
+  Array.from(listerPageAnchor).map(anchor => {
+    return anchor.scrollIntoView();
+  });
 };
