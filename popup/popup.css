@@ -1,22 +1,38 @@
+:root {
+  --imdb-color: #f3ce13;
+  --imdb-dark-color: #3e4446;
+  --blue-color: #0073e6;
+  --disabled-color: #acacac;
+  --font-size: 16px;
+}
+
 body {
-  width: 150px;
-  padding: 10px;
+  background-color: var(--imdb-color);
+  color: #fff;
+}
+
+.container {
+  width: 250px;
+  background-color: var(--imdb-dark-color);
+}
+
+.row {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  padding: 10px;
+  border: var(--imdb-color) solid 1px;
 }
 
 button {
+  background-color: var(--blue-color);
   padding: 10px;
-  background-color: #0073e6;
-  color: #fff;
-  border: none;
+  margin: auto;
   border-radius: 5px;
   cursor: pointer;
 }
 
 button:disabled {
-  background-color: #4e4f50;
+  background-color: var(--disabled-color);
   cursor: not-allowed;
 }

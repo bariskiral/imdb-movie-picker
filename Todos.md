@@ -1,13 +1,14 @@
 ## Main:
 
-1. Add slow internet options.
-2. Create filter.
+- Fix the image Settimeout.
+- Add slow internet options.
+- Create filter.
 
 ## Visual:
 
-1. Create a loading indicator to the button.
-2. Do better Css.
+- Add a loading animation to the button.
+- Do better Css.
 
 ## Maybes:
 
-1. Make extension work for list as well.
+- Make extension work for list as well.

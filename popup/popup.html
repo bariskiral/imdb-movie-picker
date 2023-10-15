@@ -7,8 +7,29 @@
     <link rel="stylesheet" type="text/css" href="popup.css" />
   </head>
   <body>
-    <button id="contentLoadBtn">Load All</button>
-    <button id="randomPickerBtn">Random Pick</button>
+    <div class="container">
+      <div class="row">
+        <button id="contentLoadBtn">Load All</button>
+        <button disabled id="randomPickerBtn">Random Pick</button>
+      </div>
+      <div class="contentContainer">
+        <div class="row" id="contentName"></div>
+        <div class="row" id="contentImage">
+          <img src="#placeholder" width="96" height="142" />
+        </div>
+        <div class="row">
+          <img
+            style="margin-right: 5px"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAABZ0lEQVR4nLWRzU7CQBzEmxBDwW1LaWlJTEQSEy5e1APefBleRi+a6CvogQfQ+MU3Am2BWkz0YOLBgwcOnNHsjmlraqMIQuI/2cvu/mZmZznuPwePeha2nl1cYJA+haOfLAb3kytw9DfY2jsseXV+AVvbh50C+inAUvf+Dj5neNwpOdipEXoq0FUAUxnBUHIoZ/jJ0H36EAPdgaMNYWu+awAnAUMGOjJYKwHalIa0ITq0QQ5CcfUN2NpLELmrAtYXzNoJD2a3ElhDBK0Lr6jEN7+Vpq+hpz54ri5sJH1XD5bAmqIP18gTyuL65KdYRIUpm+HInqsHC6BVYqJM1OklduTjwPUzMqsLYDUCWokfzfwF2kqY4cgeXCVglWXQUtyY7n7GRWlTGociF93lwqwUB72Jjd07vwvUhR2/KKGPGtkN9kuxPL3m2+yKBy5i+SkC0jaqpIAiF/lxVuQiuIwWcL60NbOHeeYDnFwap2r82ysAAAAASUVORK5CYII="
+          />
+          <div id="contentRating"></div>
+        </div>
+
+        <div class="row" id="contentYear"></div>
+        <div class="row" id="contentRuntime"></div>
+        <div class="row" id="contentGenres"></div>
+      </div>
+    </div>
     <script src="popup.js"></script>
   </body>
 </html>
