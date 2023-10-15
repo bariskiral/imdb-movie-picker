@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     sendResponse
   ) {
     if (message.movie) {
+      const contentContainer = document.querySelector(".contentContainer");
       const movieNameElement = document.getElementById("contentName");
       const movieRatingElement = document.getElementById("contentRating");
       const movieYearElement = document.getElementById("contentYear");
@@ -14,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .getElementById("contentImage")
         .querySelector("img");
 
+      contentContainer.removeAttribute("hidden");
       movieNameElement.textContent = message.movie.randomMovieName;
       movieRatingElement.textContent = message.movie.randomMovieImdbRating;
       movieImageElement.src = message.movie.randomMovieImage;
