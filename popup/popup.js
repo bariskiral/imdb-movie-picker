@@ -28,43 +28,70 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("randomPickerBtn").removeAttribute("disabled");
       document.getElementById("contentLoadBtn").textContent = "Loaded All!";
     }
+    if (message.errorMessage) {
+      const errorDiv = document.querySelector(".errorDiv");
+      errorDiv.removeAttribute("hidden");
+      errorDiv.textContent = message.errorMessage;
+      document
+        .getElementById("contentLoadBtn")
+        .setAttribute("disabled", "disabled");
+    }
   });
 
-  document
-    .getElementById("contentLoadBtn")
-    .addEventListener("click", function () {
-      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        const tabId = tabs[0].id;
-        chrome.scripting.executeScript({
-          target: { tabId: tabId },
-          function: loadButtonClicker
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    var currentTab = tabs[0];
+    const regexPattern = /https:\/\/www\.imdb\.com.*watchlist/;
+    if (regexPattern.test(currentTab.url)) {
+      document
+        .getElementById("contentLoadBtn")
+        .addEventListener("click", function () {
+          chrome.tabs.query(
+            { active: true, currentWindow: true },
+            function (tabs) {
+              const tabId = tabs[0].id;
+              chrome.scripting.executeScript({
+                target: { tabId: tabId },
+                function: loadButtonClicker
+              });
+            }
+          );
         });
-      });
-    });
 
-  document
-    .getElementById("randomPickerBtn")
-    .addEventListener("click", function () {
-      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        const tabId = tabs[0].id;
-        chrome.scripting.executeScript({
-          target: { tabId: tabId },
-          function: collectMovies
+      document
+        .getElementById("randomPickerBtn")
+        .addEventListener("click", function () {
+          chrome.tabs.query(
+            { active: true, currentWindow: true },
+            function (tabs) {
+              const tabId = tabs[0].id;
+              chrome.scripting.executeScript({
+                target: { tabId: tabId },
+                function: collectMovies
+              });
+            }
+          );
         });
+    } else {
+      const tabId = currentTab.id;
+      chrome.scripting.executeScript({
+        target: { tabId: tabId },
+        function: errorHandler
       });
-    });
+    }
+  });
 });
+
+const delay = 1000;
 
 const loadButtonClicker = () => {
   const loadButton = document.querySelector(".load-more");
 
   if (loadButton) {
     loadButton.click();
-
     setTimeout(() => {
       loadButtonClicker();
       scrollToAnchor();
-    }, 200);
+    }, delay);
   } else {
     const isLoaded = true;
     chrome.runtime.sendMessage({
@@ -73,7 +100,7 @@ const loadButtonClicker = () => {
   }
 };
 
-const collectMovies = () => {
+const collectMovies = async () => {
   const movies = document.querySelectorAll(".lister-item");
   const rnd = Math.floor(Math.random() * movies.length);
   movies[rnd].scrollIntoView();
@@ -81,9 +108,12 @@ const collectMovies = () => {
   const randomMovieName = movies[rnd].querySelector(
     ".lister-item-header a"
   ).textContent;
-  const randomMovieImage = movies[rnd].querySelector(
-    ".lister-item-image a img"
-  ).src;
+  let randomMovieImage = await new Promise(resolve => {
+    setTimeout(() => {
+      resolve(movies[rnd].querySelector(".lister-item-image a img").src);
+    }, delay);
+  });
+
   const randomMovieYear =
     movies[rnd].querySelector(".lister-item-year").textContent;
   const randomMovieRuntime = movies[rnd].querySelector(".runtime").textContent;
@@ -108,5 +138,11 @@ const scrollToAnchor = () => {
   const listerPageAnchor = document.querySelectorAll(".lister-page-anchor");
   Array.from(listerPageAnchor).map(anchor => {
     return anchor.scrollIntoView();
+  });
+};
+
+const errorHandler = () => {
+  chrome.runtime.sendMessage({
+    errorMessage: "You are not on your Watchlist"
   });
 };

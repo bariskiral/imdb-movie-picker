@@ -31,6 +31,16 @@ body {
   border: var(--imdb-color) solid 1px;
 }
 
+.errorRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.errorDiv {
+  color: red;
+}
+
 button {
   background-color: var(--blue-color);
   padding: 10px;

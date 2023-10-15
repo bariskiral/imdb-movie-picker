@@ -1,6 +1,5 @@
 ## Main:
 
-- Fix the image Settimeout.
 - Add slow internet options.
 - Create filter.
 

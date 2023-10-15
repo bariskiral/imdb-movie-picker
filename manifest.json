@@ -3,7 +3,7 @@
   "name": "IMDb Movie Picker",
   "version": "1.0",
   "description": "A simple Chrome extension that allows you to pick a movie from a list of movies.",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting", "tabs"],
   "icons": {
     "16": "images/cat_16x16.png",
     "32": "images/cat_32x32.png",
