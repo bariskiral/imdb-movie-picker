@@ -5,7 +5,6 @@
 
 ## Visual:
 
-- Add a loading animation to the button.
 - Do better Css.
 
 ## Maybes:

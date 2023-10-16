@@ -13,6 +13,20 @@ body {
   color: #fff;
 }
 
+button {
+  background-color: var(--blue-color);
+  padding: 10px;
+  margin: auto;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: var(--font-size-mid);
+}
+
+button:disabled {
+  background-color: var(--disabled-color);
+  cursor: not-allowed;
+}
+
 .popupHeader {
   font-size: var(--font-size-large);
 }
@@ -31,6 +45,17 @@ body {
   border: var(--imdb-color) solid 1px;
 }
 
+.loadingAnimation {
+  width: 50px;
+  height: 20px;
+}
+
+.loadingRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .errorRow {
   display: flex;
   justify-content: center;
@@ -39,18 +64,4 @@ body {
 
 .errorDiv {
   color: red;
-}
-
-button {
-  background-color: var(--blue-color);
-  padding: 10px;
-  margin: auto;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: var(--font-size-mid);
-}
-
-button:disabled {
-  background-color: var(--disabled-color);
-  cursor: not-allowed;
 }
