@@ -47,98 +47,17 @@ document.addEventListener("DOMContentLoaded", function () {
     if (regexPattern.test(currentTab.url)) {
       document.getElementById("contentLoadBtn").addEventListener("click", function () {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-          const tabId = tabs[0].id;
-          chrome.scripting.executeScript({
-            target: { tabId: tabId },
-            function: loadButtonClicker
-          });
+          chrome.tabs.sendMessage(currentTab.id, { command: "loadButtonClicker" });
         });
       });
 
       document.getElementById("randomPickerBtn").addEventListener("click", function () {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-          const tabId = tabs[0].id;
-          chrome.scripting.executeScript({
-            target: { tabId: tabId },
-            function: collectMovies
-          });
+          chrome.tabs.sendMessage(currentTab.id, { command: "collectMovies" });
         });
       });
     } else {
-      const tabId = currentTab.id;
-      chrome.scripting.executeScript({
-        target: { tabId: tabId },
-        function: errorHandler
-      });
+      chrome.runtime.sendMessage({ tabId: currentTab.id, command: "errorHandler" });
     }
   });
 });
-
-const delay = 2000;
-
-const loadButtonClicker = () => {
-  const loadButton = document.querySelector(".load-more");
-
-  chrome.runtime.sendMessage({
-    isLoading: true
-  });
-
-  if (loadButton) {
-    loadButton.click();
-    setTimeout(() => {
-      loadButtonClicker();
-      scrollToAnchor();
-    }, delay / 2);
-  } else {
-    chrome.runtime.sendMessage({
-      isLoaded: true
-    });
-  }
-};
-
-const collectMovies = async () => {
-  const movies = document.querySelectorAll(".lister-item");
-  const rnd = Math.floor(Math.random() * movies.length);
-
-  chrome.runtime.sendMessage({
-    isLoading: true
-  });
-
-  movies[rnd].scrollIntoView();
-
-  const randomMovieName = movies[rnd].querySelector(".lister-item-header a").textContent;
-  let randomMovieImage = await new Promise(resolve => {
-    setTimeout(() => {
-      resolve(movies[rnd].querySelector(".lister-item-image a img").src);
-    }, delay);
-  });
-
-  const randomMovieYear = movies[rnd].querySelector(".lister-item-year").textContent;
-  const randomMovieRuntime = movies[rnd].querySelector(".runtime").textContent;
-  const randomMovieGenres = movies[rnd].querySelector(".genre").textContent;
-  const randomMovieImdbRating = movies[rnd].querySelector(".ratings-imdb-rating").textContent;
-
-  chrome.runtime.sendMessage({
-    movie: {
-      randomMovieName,
-      randomMovieImage,
-      randomMovieYear,
-      randomMovieRuntime,
-      randomMovieGenres,
-      randomMovieImdbRating
-    }
-  });
-};
-
-const scrollToAnchor = () => {
-  const listerPageAnchor = document.querySelectorAll(".lister-page-anchor");
-  Array.from(listerPageAnchor).map(anchor => {
-    return anchor.scrollIntoView();
-  });
-};
-
-const errorHandler = () => {
-  chrome.runtime.sendMessage({
-    errorMessage: "You are not on your Watchlist"
-  });
-};

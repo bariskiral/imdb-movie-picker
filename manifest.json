@@ -24,7 +24,7 @@
   },
   "content_scripts": [
     {
-      "js": ["/popup/popup.js"],
+      "js": ["content.js"],
       "matches": ["https://www.imdb.com/user/*/watchlist*"]
     }
   ]
