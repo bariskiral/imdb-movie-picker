@@ -1,20 +1,18 @@
-## Main:
+## Code:
 
-- Add slow internet options.
 - Create a filter. Mainly for the rating and genres.
 
 ## Fix:
 
-- Fix the freeze bug on lists.
-- Fix the rapid change that occurs when smashing the random button.
+- Fix the "Episode" text.
 
 ## Visual:
 
 - Do better CSS.
 - Add smooth animations. Right now everything is instant.
-- Stop scrollIntoView if it's possible.
 - Add padding to the error div and loading div.
 - Make the extension button disabled if webpage is not imdb.com.
+- Add default image.
 
 ## Maybes:
 

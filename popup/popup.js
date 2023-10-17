@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
-  chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+  chrome.runtime.onMessage.addListener(function (
+    message,
+    sender,
+    sendResponse
+  ) {
     const loadingAnim = document.querySelector(".loadingAnimation");
 
     if (message.movie) {
@@ -9,15 +13,23 @@ document.addEventListener("DOMContentLoaded", function () {
       const movieYearElement = document.getElementById("contentYear");
       const movieRuntimeElement = document.getElementById("contentRuntime");
       const movieGenresElement = document.getElementById("contentGenres");
-      const movieImageElement = document.getElementById("contentImage").querySelector("img");
-
+      const movieImageElement = document
+        .getElementById("contentImage")
+        .querySelector("img");
       contentContainer.removeAttribute("hidden");
       movieNameElement.textContent = message.movie.randomMovieName;
       movieRatingElement.textContent = message.movie.randomMovieImdbRating;
       movieImageElement.src = message.movie.randomMovieImage;
       movieImageElement.removeAttribute("hidden");
       movieYearElement.textContent = message.movie.randomMovieYear;
+
       movieRuntimeElement.textContent = message.movie.randomMovieRuntime;
+      // ? message.movie.randomMovieRuntime.textContent.replace(
+      //     /(\d+)eps/g,
+      //     "$1 Episodes TV Series"
+      //   )
+      // : message.movie.randomMovieRuntime;
+
       movieGenresElement.textContent = message.movie.randomMovieGenres;
       loadingAnim.setAttribute("hidden", "");
     }
@@ -45,19 +57,40 @@ document.addEventListener("DOMContentLoaded", function () {
     const regexPattern = /https:\/\/www\.imdb\.com.*watchlist/;
 
     if (regexPattern.test(currentTab.url)) {
-      document.getElementById("contentLoadBtn").addEventListener("click", function () {
-        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-          chrome.tabs.sendMessage(currentTab.id, { command: "loadButtonClicker" });
+      document
+        .getElementById("contentLoadBtn")
+        .addEventListener("click", function () {
+          chrome.tabs.query(
+            { active: true, currentWindow: true },
+            function (tabs) {
+              const delay = document.getElementById("delaySelect").value;
+              chrome.tabs.sendMessage(currentTab.id, {
+                command: "loadButtonClicker",
+                delay: delay
+              });
+            }
+          );
         });
-      });
 
-      document.getElementById("randomPickerBtn").addEventListener("click", function () {
-        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-          chrome.tabs.sendMessage(currentTab.id, { command: "collectMovies" });
+      document
+        .getElementById("randomPickerBtn")
+        .addEventListener("click", function () {
+          chrome.tabs.query(
+            { active: true, currentWindow: true },
+            function (tabs) {
+              const delay = document.getElementById("delaySelect").value;
+              chrome.tabs.sendMessage(currentTab.id, {
+                command: "collectMovies",
+                delay: delay
+              });
+            }
+          );
         });
-      });
     } else {
-      chrome.runtime.sendMessage({ tabId: currentTab.id, command: "errorHandler" });
+      chrome.runtime.sendMessage({
+        tabId: currentTab.id,
+        command: "errorHandler"
+      });
     }
   });
 });

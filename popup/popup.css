@@ -62,6 +62,12 @@ button:disabled {
   align-items: center;
 }
 
+.selectionRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .errorDiv {
   color: red;
 }
