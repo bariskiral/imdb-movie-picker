@@ -4,15 +4,11 @@
 
 ## Fix:
 
-- Fix the "Episode" text.
-
 ## Visual:
 
 - Do better CSS.
 - Add smooth animations. Right now everything is instant.
 - Add padding to the error div and loading div.
-- Make the extension button disabled if webpage is not imdb.com.
-- Add default image.
 
 ## Maybes:
 

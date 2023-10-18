@@ -44,7 +44,15 @@ const collectMovies = async delay => {
 
   const randomMovieImage = await new Promise(resolve => {
     setTimeout(() => {
-      resolve(movies[rnd].querySelector(".lister-item-image a img").src);
+      console.log("/images/tv.png");
+      console.log(movies[rnd].querySelector(".lister-item-image a img").src);
+      resolve(
+        movies[rnd]
+          .querySelector(".lister-item-image a img")
+          .src.includes("https://m.media-amazon.com")
+          ? movies[rnd].querySelector(".lister-item-image a img").src
+          : "/images/tv.png"
+      );
     }, delay / 2);
   });
 
@@ -55,7 +63,9 @@ const collectMovies = async delay => {
     ? movies[rnd].querySelector(".runtime").textContent
     : movies[rnd].classList.contains("featureFilm")
     ? "Run Time TBA"
-    : movies[rnd].querySelector(".lister-item-details").children[2].textContent;
+    : movies[rnd]
+        .querySelector(".lister-item-details")
+        .children[2].textContent.replace(/(\d+)eps/g, "$1 Episodes TV Series");
 
   const randomMovieGenres =
     movies[rnd].querySelector(".genre")?.textContent ||
