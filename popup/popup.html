@@ -13,20 +13,19 @@
         <button id="contentLoadBtn">Load All</button>
         <button disabled id="randomPickerBtn">Random Pick</button>
       </div>
-      <div class="selectionRow">
-        <label for="delaySelect">Delay:</label>
-        <select id="delaySelect">
-          <option value="500">Fast</option>
-          <option value="1000" selected>Normal</option>
-          <option value="3000">Slow</option>
-          <option value="5000">Potato</option>
-        </select>
-      </div>
-      <div class="loadingRow">
-        <img hidden class="loadingAnimation" src="../images/loading.gif" />
-      </div>
-      <div class="errorRow">
-        <div hidden class="errorDiv"></div>
+      <div class="row">
+        <div class="selectDiv">
+          <label style="margin-right: 0.5em" for="delaySelect">Speed:</label>
+          <select id="delaySelect">
+            <option value="500">Fast</option>
+            <option value="1000" selected>Normal</option>
+            <option value="3000">Slow</option>
+            <option value="5000">Potato</option>
+          </select>
+        </div>
+        <div>
+          <img class="loadingAnimation hidden" src="../images/loading.gif" />
+        </div>
       </div>
       <div hidden class="contentContainer">
         <div class="row" id="contentName"></div>
@@ -35,7 +34,7 @@
         </div>
         <div class="row">
           <img
-            style="margin-right: 5px"
+            style="margin-right: 0.25em"
             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAABZ0lEQVR4nLWRzU7CQBzEmxBDwW1LaWlJTEQSEy5e1APefBleRi+a6CvogQfQ+MU3Am2BWkz0YOLBgwcOnNHsjmlraqMIQuI/2cvu/mZmZznuPwePeha2nl1cYJA+haOfLAb3kytw9DfY2jsseXV+AVvbh50C+inAUvf+Dj5neNwpOdipEXoq0FUAUxnBUHIoZ/jJ0H36EAPdgaMNYWu+awAnAUMGOjJYKwHalIa0ITq0QQ5CcfUN2NpLELmrAtYXzNoJD2a3ElhDBK0Lr6jEN7+Vpq+hpz54ri5sJH1XD5bAmqIP18gTyuL65KdYRIUpm+HInqsHC6BVYqJM1OklduTjwPUzMqsLYDUCWokfzfwF2kqY4cgeXCVglWXQUtyY7n7GRWlTGociF93lwqwUB72Jjd07vwvUhR2/KKGPGtkN9kuxPL3m2+yKBy5i+SkC0jaqpIAiF/lxVuQiuIwWcL60NbOHeeYDnFwap2r82ysAAAAASUVORK5CYII="
           />
           <div id="contentRating"></div>

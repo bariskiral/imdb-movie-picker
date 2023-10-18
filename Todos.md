@@ -8,7 +8,6 @@
 
 - Do better CSS.
 - Add smooth animations. Right now everything is instant.
-- Add padding to the error div and loading div.
 
 ## Maybes:
 

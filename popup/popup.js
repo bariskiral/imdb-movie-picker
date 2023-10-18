@@ -24,17 +24,16 @@ document.addEventListener("DOMContentLoaded", function () {
       movieYearElement.textContent = message.movie.randomMovieYear;
       movieRuntimeElement.textContent = message.movie.randomMovieRuntime;
       movieGenresElement.textContent = message.movie.randomMovieGenres;
-      loadingAnim.setAttribute("hidden", "");
     }
 
     if (message.isLoading) {
-      loadingAnim.removeAttribute("hidden");
-    }
-
-    if (message.isLoaded) {
+      document.querySelector(".selectDiv").setAttribute("hidden", "");
+      loadingAnim.classList.remove("hidden");
+    } else {
       document.getElementById("randomPickerBtn").removeAttribute("disabled");
-      document.getElementById("contentLoadBtn").textContent = "Loaded All!";
-      loadingAnim.setAttribute("hidden", "");
+      document.getElementById("contentLoadBtn").textContent = "All Loaded!";
+      document.querySelector(".selectDiv").removeAttribute("hidden");
+      loadingAnim.classList.add("hidden");
     }
   });
 

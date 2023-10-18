@@ -16,7 +16,7 @@ body {
 button {
   background-color: var(--blue-color);
   padding: 10px;
-  margin: auto;
+  margin: 0.25em;
   border-radius: 5px;
   cursor: pointer;
   font-size: var(--font-size-mid);
@@ -37,7 +37,12 @@ button:disabled {
   font-size: var(--font-size-mid);
 }
 
+.hidden {
+  opacity: 0;
+}
+
 .row {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,24 +55,6 @@ button:disabled {
   height: 20px;
 }
 
-.loadingRow {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.errorRow {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.selectionRow {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.errorDiv {
-  color: red;
+.selectDiv {
+  position: absolute;
 }

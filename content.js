@@ -20,7 +20,7 @@ const loadButtonClicker = delay => {
   } else {
     if (isClicked) {
       chrome.runtime.sendMessage({
-        isLoaded: true
+        isLoading: false
       });
       isClicked = false;
     }
