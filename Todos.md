@@ -1,5 +1,8 @@
 ## Code:
 
+- Clean up the code.
+- Change names to be more descriptive.
+
 ## Fix:
 
 - Fix the issue that occurs while filtering the small number of contents.

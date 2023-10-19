@@ -109,9 +109,21 @@ const collectMovies = async (movies, rnd, delay) => {
         randomMovieRuntime,
         randomMovieGenres,
         randomMovieImdbRating
-      }
+      },
+      isLoading: false
     });
     isClicked = false;
+
+    chrome.storage.sync.set({
+      movie: {
+        randomMovieName,
+        randomMovieImage,
+        randomMovieYear,
+        randomMovieRuntime,
+        randomMovieGenres,
+        randomMovieImdbRating
+      }
+    });
   }
 };
 
