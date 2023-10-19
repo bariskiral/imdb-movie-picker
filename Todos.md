@@ -1,13 +1,14 @@
 ## Code:
 
-- Create a filter. Mainly for the rating and genres.
-
 ## Fix:
+
+- Fix the issue that occurs while filtering the small number of contents.
 
 ## Visual:
 
-- Do better CSS.
 - Add smooth animations. Right now everything is instant.
+- Add border, shine, hover, click animations.
+- Disable the load button after loading?
 
 ## Maybes:
 

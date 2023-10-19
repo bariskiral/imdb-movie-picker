@@ -27,9 +27,36 @@ const loadButtonClicker = delay => {
   }
 };
 
-const collectMovies = async delay => {
+const pickContent = (delay, input) => {
   const movies = document.querySelectorAll(".lister-item");
-  const rnd = Math.floor(Math.random() * movies.length);
+  let rnd = Math.floor(Math.random() * movies.length);
+
+  if (
+    +input <= +movies[rnd].querySelector(".ratings-imdb-rating").textContent
+  ) {
+    console.log(
+      "\x1b[32m%s\x1b[0m",
+      "PASS" +
+        " Input is: " +
+        input +
+        " Movie is: " +
+        +movies[rnd].querySelector(".ratings-imdb-rating").textContent
+    );
+    collectMovies(movies, rnd, delay);
+  } else {
+    console.log(
+      "\x1b[31m%s\x1b[0m",
+      "FAIL" +
+        " Input is: " +
+        input +
+        " Movie is: " +
+        +movies[rnd].querySelector(".ratings-imdb-rating").textContent
+    );
+    pickContent(delay, input);
+  }
+};
+
+const collectMovies = async (movies, rnd, delay) => {
   isClicked = true;
 
   chrome.runtime.sendMessage({
@@ -44,8 +71,6 @@ const collectMovies = async delay => {
 
   const randomMovieImage = await new Promise(resolve => {
     setTimeout(() => {
-      console.log("/images/tv.png");
-      console.log(movies[rnd].querySelector(".lister-item-image a img").src);
       resolve(
         movies[rnd]
           .querySelector(".lister-item-image a img")
@@ -99,9 +124,10 @@ const scrollToAnchor = () => {
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   const delay = message.delay;
+  const input = message.input;
   if (message.command === "loadButtonClicker" && !isClicked) {
     Promise.all([loadButtonClicker(delay), scrollToAnchor()]);
-  } else if (message.command === "collectMovies" && !isClicked) {
-    collectMovies(delay);
+  } else if (message.command === "pickContent" && !isClicked) {
+    pickContent(delay, input);
   }
 });

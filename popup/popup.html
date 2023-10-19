@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>IMDb Movie Picker</title>
     <link rel="stylesheet" type="text/css" href="popup.css" />
+    <link href="https://fonts.cdnfonts.com/css/amazon-ember" rel="stylesheet" />
   </head>
   <body>
     <div class="container">
@@ -27,15 +28,36 @@
           <img class="loadingAnimation hidden" src="../images/loading.gif" />
         </div>
       </div>
+      <div class="row">
+        <input
+          style="margin-right: 1em"
+          class="ratingSlider"
+          type="range"
+          min="1"
+          max="9"
+          value="6"
+        />
+        <div class="sliderRow">
+          <img
+            style="margin-right: 0.25em"
+            src="/images/star.png"
+            width="12em"
+            height="12em"
+          />
+          <output class="sliderValue"></output>
+        </div>
+      </div>
       <div hidden class="contentContainer">
         <div class="row" id="contentName"></div>
         <div class="row" id="contentImage">
-          <img src="#placeholder" width="96" height="142" />
+          <img src="#placeholder" width="96em" height="142em" />
         </div>
         <div class="row">
           <img
             style="margin-right: 0.25em"
-            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAABZ0lEQVR4nLWRzU7CQBzEmxBDwW1LaWlJTEQSEy5e1APefBleRi+a6CvogQfQ+MU3Am2BWkz0YOLBgwcOnNHsjmlraqMIQuI/2cvu/mZmZznuPwePeha2nl1cYJA+haOfLAb3kytw9DfY2jsseXV+AVvbh50C+inAUvf+Dj5neNwpOdipEXoq0FUAUxnBUHIoZ/jJ0H36EAPdgaMNYWu+awAnAUMGOjJYKwHalIa0ITq0QQ5CcfUN2NpLELmrAtYXzNoJD2a3ElhDBK0Lr6jEN7+Vpq+hpz54ri5sJH1XD5bAmqIP18gTyuL65KdYRIUpm+HInqsHC6BVYqJM1OklduTjwPUzMqsLYDUCWokfzfwF2kqY4cgeXCVglWXQUtyY7n7GRWlTGociF93lwqwUB72Jjd07vwvUhR2/KKGPGtkN9kuxPL3m2+yKBy5i+SkC0jaqpIAiF/lxVuQiuIwWcL60NbOHeeYDnFwap2r82ysAAAAASUVORK5CYII="
+            src="/images/star.png"
+            width="16em"
+            height="16em"
           />
           <div id="contentRating"></div>
         </div>

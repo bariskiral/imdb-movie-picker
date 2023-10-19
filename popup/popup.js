@@ -37,6 +37,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  const value = document.querySelector(".sliderValue");
+  const input = document.querySelector(".ratingSlider");
+  value.textContent = input.value;
+  input.addEventListener("input", event => {
+    value.textContent = event.target.value;
+  });
+
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     var currentTab = tabs[0];
 
@@ -63,8 +70,9 @@ document.addEventListener("DOMContentLoaded", function () {
           function (tabs) {
             const delay = document.getElementById("delaySelect").value;
             chrome.tabs.sendMessage(currentTab.id, {
-              command: "collectMovies",
-              delay: delay
+              command: "pickContent",
+              delay: delay,
+              input: input.value
             });
           }
         );

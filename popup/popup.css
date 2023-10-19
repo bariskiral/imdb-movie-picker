@@ -6,14 +6,17 @@
   --font-size-small: 10px;
   --font-size-mid: 15px;
   --font-size-large: 20px;
+  --font-defaults: "Amazon Ember", sans-serif, serif, monospace;
 }
 
 body {
+  font-family: var(--font-defaults);
   background-color: var(--imdb-color);
   color: #fff;
 }
 
 button {
+  font: inherit;
   background-color: var(--blue-color);
   padding: 10px;
   margin: 0.25em;
@@ -57,4 +60,14 @@ button:disabled {
 
 .selectDiv {
   position: absolute;
+}
+
+.sliderRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ratingSlider {
+  cursor: pointer;
 }
