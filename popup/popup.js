@@ -7,24 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const loadingAnim = document.querySelector(".loadingAnimation");
 
     if (message.movie) {
-      const contentContainer = document.querySelector(".contentContainer");
-      const movieNameElement = document.getElementById("contentName");
-      const movieRatingElement = document.getElementById("contentRating");
-      const movieYearElement = document.getElementById("contentYear");
-      const movieRuntimeElement = document.getElementById("contentRuntime");
-      const movieGenresElement = document.getElementById("contentGenres");
-      const movieImageElement = document
-        .getElementById("contentImage")
-        .querySelector("img");
-      contentContainer.removeAttribute("hidden");
-      movieNameElement.textContent = message.movie.randomMovieName;
-      movieRatingElement.textContent = message.movie.randomMovieImdbRating;
-      movieImageElement.src = message.movie.randomMovieImage;
-      movieImageElement.removeAttribute("hidden");
-      movieYearElement.textContent = message.movie.randomMovieYear;
-      movieRuntimeElement.textContent = message.movie.randomMovieRuntime;
-      movieGenresElement.textContent = message.movie.randomMovieGenres;
-
+      contentReceiver(message);
       chrome.storage.sync.set({ movie: message.movie });
     }
 
@@ -32,17 +15,43 @@ document.addEventListener("DOMContentLoaded", function () {
       document.querySelector(".selectDiv").setAttribute("hidden", "");
       loadingAnim.classList.remove("hidden");
     } else {
-      document.getElementById("randomPickerBtn").removeAttribute("disabled");
-      document.getElementById("contentLoadBtn").textContent = "All Loaded!";
-      document.querySelector(".selectDiv").removeAttribute("hidden");
+      loadedBtnVisuals();
       loadingAnim.classList.add("hidden");
 
       chrome.storage.sync.set({ buttonStates: message.isLoading });
     }
   });
 
+  const loadedBtnVisuals = () => {
+    document.getElementById("randomPickerBtn").removeAttribute("disabled");
+    document.getElementById("contentLoadBtn").textContent = "All Loaded!";
+    document.getElementById("contentLoadBtn").setAttribute("disabled", "");
+    document.querySelector(".selectDiv").removeAttribute("hidden");
+  };
+
+  const contentReceiver = data => {
+    const contentContainer = document.querySelector(".contentContainer");
+    const movieNameElement = document.getElementById("contentName");
+    const movieRatingElement = document.getElementById("contentRating");
+    const movieYearElement = document.getElementById("contentYear");
+    const movieRuntimeElement = document.getElementById("contentRuntime");
+    const movieGenresElement = document.getElementById("contentGenres");
+    const movieImageElement = document
+      .getElementById("contentImage")
+      .querySelector("img");
+    contentContainer.removeAttribute("hidden");
+    movieNameElement.textContent = data.movie.randomMovieName;
+    movieRatingElement.textContent = data.movie.randomMovieImdbRating;
+    movieImageElement.src = data.movie.randomMovieImage;
+    movieImageElement.removeAttribute("hidden");
+    movieYearElement.textContent = data.movie.randomMovieYear;
+    movieRuntimeElement.textContent = data.movie.randomMovieRuntime;
+    movieGenresElement.textContent = data.movie.randomMovieGenres;
+  };
+
   const value = document.querySelector(".sliderValue");
   const input = document.querySelector(".ratingSlider");
+
   value.textContent = input.value;
   input.addEventListener("input", event => {
     value.textContent = event.target.value;
@@ -50,23 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   chrome.storage.sync.get(["movie"], function (result) {
     if (result.movie) {
-      const contentContainer = document.querySelector(".contentContainer");
-      const movieNameElement = document.getElementById("contentName");
-      const movieRatingElement = document.getElementById("contentRating");
-      const movieYearElement = document.getElementById("contentYear");
-      const movieRuntimeElement = document.getElementById("contentRuntime");
-      const movieGenresElement = document.getElementById("contentGenres");
-      const movieImageElement = document
-        .getElementById("contentImage")
-        .querySelector("img");
-      contentContainer.removeAttribute("hidden");
-      movieNameElement.textContent = result.movie.randomMovieName;
-      movieRatingElement.textContent = result.movie.randomMovieImdbRating;
-      movieImageElement.src = result.movie.randomMovieImage;
-      movieImageElement.removeAttribute("hidden");
-      movieYearElement.textContent = result.movie.randomMovieYear;
-      movieRuntimeElement.textContent = result.movie.randomMovieRuntime;
-      movieGenresElement.textContent = result.movie.randomMovieGenres;
+      contentReceiver(result);
     }
   });
 
@@ -74,9 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ["buttonStates", "speed", "ratingValue"],
     function (result) {
       if (result.buttonStates !== undefined) {
-        document.getElementById("randomPickerBtn").removeAttribute("disabled");
-        document.getElementById("contentLoadBtn").textContent = "All Loaded!";
-        document.querySelector(".selectDiv").removeAttribute("hidden");
+        loadedBtnVisuals();
       }
       if (result.ratingValue) {
         input.value = result.ratingValue;
