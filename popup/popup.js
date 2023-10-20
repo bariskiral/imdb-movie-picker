@@ -6,9 +6,9 @@ document.addEventListener("DOMContentLoaded", function () {
   ) {
     const loadingAnim = document.querySelector(".loadingAnimation");
 
-    if (message.movie) {
+    if (message.content) {
       contentReceiver(message);
-      chrome.storage.sync.set({ movie: message.movie });
+      chrome.storage.sync.set({ content: message.content });
     }
 
     if (message.isLoading) {
@@ -31,22 +31,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const contentReceiver = data => {
     const contentContainer = document.querySelector(".contentContainer");
-    const movieNameElement = document.getElementById("contentName");
-    const movieRatingElement = document.getElementById("contentRating");
-    const movieYearElement = document.getElementById("contentYear");
-    const movieRuntimeElement = document.getElementById("contentRuntime");
-    const movieGenresElement = document.getElementById("contentGenres");
-    const movieImageElement = document
+    const contentNameElement = document.getElementById("contentName");
+    const contentRatingElement = document.getElementById("contentRating");
+    const contentYearElement = document.getElementById("contentYear");
+    const contentRuntimeElement = document.getElementById("contentRuntime");
+    const contentGenresElement = document.getElementById("contentGenres");
+    const contentImageElement = document
       .getElementById("contentImage")
       .querySelector("img");
     contentContainer.removeAttribute("hidden");
-    movieNameElement.textContent = data.movie.randomMovieName;
-    movieRatingElement.textContent = data.movie.randomMovieImdbRating;
-    movieImageElement.src = data.movie.randomMovieImage;
-    movieImageElement.removeAttribute("hidden");
-    movieYearElement.textContent = data.movie.randomMovieYear;
-    movieRuntimeElement.textContent = data.movie.randomMovieRuntime;
-    movieGenresElement.textContent = data.movie.randomMovieGenres;
+    contentNameElement.textContent = data.content.rndContentName;
+    contentRatingElement.textContent = data.content.rndContentImdbRating;
+    contentImageElement.src = data.content.rndContentImage;
+    contentImageElement.removeAttribute("hidden");
+    contentYearElement.textContent = data.content.rndContentYear;
+    contentRuntimeElement.textContent = data.content.rndContentRuntime;
+    contentGenresElement.textContent = data.content.rndContentGenres;
   };
 
   const value = document.querySelector(".sliderValue");
@@ -57,8 +57,8 @@ document.addEventListener("DOMContentLoaded", function () {
     value.textContent = event.target.value;
   });
 
-  chrome.storage.sync.get(["movie"], function (result) {
-    if (result.movie) {
+  chrome.storage.sync.get(["content"], function (result) {
+    if (result.content) {
       contentReceiver(result);
     }
   });

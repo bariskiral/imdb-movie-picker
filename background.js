@@ -14,7 +14,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     });
     if (changeInfo.status === "complete" && tabId !== currentListID) {
       console.log("changed");
-      chrome.storage.sync.remove("movie");
+      chrome.storage.sync.remove("content");
       chrome.storage.sync.remove("buttonStates");
       chrome.storage.sync.remove("ratingValue");
       chrome.storage.sync.remove("speed");
@@ -39,7 +39,7 @@ chrome.tabs.onActivated.addListener(activeInfo => {
   const tab = chrome.tabs.get(tabId, currentTab => {
     if (regexPattern.test(currentTab.url)) {
       if (currentListID !== tabId) {
-        chrome.storage.sync.remove("movie");
+        chrome.storage.sync.remove("content");
         chrome.storage.sync.remove("buttonStates");
         chrome.storage.sync.remove("ratingValue");
         chrome.storage.sync.remove("speed");

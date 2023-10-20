@@ -11,7 +11,6 @@
 
 - Add smooth animations. Right now everything is instant.
 - Add border, shine, hover, click animations.
-- Disable the load button after loading?
 
 ## Maybes:
 
