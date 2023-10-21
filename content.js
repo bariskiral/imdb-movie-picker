@@ -27,80 +27,59 @@ const loadButtonClicker = delay => {
   }
 };
 
-//FIXME: Because of no timing, sometimes fucntion doesn't work. Only way that I can think of filtering all the content with input value.
-
 const pickContent = (delay, input) => {
-  const content = document.querySelectorAll(".lister-item");
-  let rnd = Math.floor(Math.random() * content.length);
+  const initialContent = document.querySelectorAll(".lister-item");
+  const contentsArray = Array.from(initialContent).map((content, index) => ({
+    contentRating: content.querySelector(".ratings-imdb-rating"),
+    index
+  }));
 
-  if (
-    +input <= +content[rnd].querySelector(".ratings-imdb-rating").textContent
-  ) {
-    console.log(
-      "\x1b[32m%s\x1b[0m",
-      "PASS" +
-        " Input is: " +
-        input +
-        " Content is: " +
-        +content[rnd].querySelector(".ratings-imdb-rating").textContent
-    );
-    collectContent(content, rnd, delay);
-  } else {
-    console.log(
-      "\x1b[31m%s\x1b[0m",
-      "FAIL" +
-        " Input is: " +
-        input +
-        " Content is: " +
-        +content[rnd].querySelector(".ratings-imdb-rating").textContent
-    );
-    pickContent(delay, input);
-  }
+  const filteredContent = contentsArray.filter(_content => {
+    if (input === "0") {
+      return _content;
+    } else if (_content.contentRating) {
+      return +_content.contentRating.textContent >= +input;
+    } else {
+      return false;
+    }
+  });
+  const rnd = Math.floor(Math.random() * filteredContent.length);
+  console.log(initialContent);
+  console.log(filteredContent);
+  console.log(initialContent.length);
+  console.log(filteredContent.length);
+  collectContent(initialContent[filteredContent[rnd].index], delay);
 };
 
-const collectContent = async (contents, rnd, delay) => {
+const collectContent = async (contents, delay) => {
   isClicked = true;
 
   chrome.runtime.sendMessage({
     isLoading: true
   });
 
-  contents[rnd].scrollIntoView();
+  contents.scrollIntoView();
 
-  const rndContentName =
-    contents[rnd].querySelector(".lister-item-header a")?.textContent ||
-    "UNKNOWN";
-
+  const rndContentName = contents.querySelector(".lister-item-header a")?.textContent || "UNKNOWN";
   const rndContentImage = await new Promise(resolve => {
     setTimeout(() => {
       resolve(
-        contents[rnd]
-          .querySelector(".lister-item-image a img")
-          .src.includes("https://m.media-amazon.com")
-          ? contents[rnd].querySelector(".lister-item-image a img").src
+        contents.querySelector(".lister-item-image a img").src.includes("https://m.media-amazon.com")
+          ? contents.querySelector(".lister-item-image a img").src
           : "/images/tv.png"
       );
     }, delay / 2);
   });
-
-  const rndContentYear =
-    contents[rnd].querySelector(".lister-item-year")?.textContent || "Year TBA";
-
-  const rndContentRuntime = contents[rnd].querySelector(".runtime")
-    ? contents[rnd].querySelector(".runtime").textContent
-    : contents[rnd].classList.contains("featureFilm")
+  const rndContentYear = contents.querySelector(".lister-item-year")?.textContent || "Year TBA";
+  const rndContentRuntime = contents.querySelector(".runtime")
+    ? contents.querySelector(".runtime").textContent
+    : contents.classList.contains("featureFilm")
     ? "Run Time TBA"
-    : contents[rnd]
+    : contents
         .querySelector(".lister-item-details")
         .children[2].textContent.replace(/(\d+)eps/g, "$1 Episodes TV Series");
-
-  const rndContentGenres =
-    contents[rnd].querySelector(".genre")?.textContent ||
-    "Genres are not Available";
-
-  const rndContentImdbRating =
-    contents[rnd].querySelector(".ratings-imdb-rating")?.textContent ||
-    "Not Released";
+  const rndContentGenres = contents.querySelector(".genre")?.textContent || "Genres are not Available";
+  const rndContentImdbRating = contents.querySelector(".ratings-imdb-rating")?.textContent || "Not Released";
 
   if (isClicked) {
     chrome.runtime.sendMessage({
