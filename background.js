@@ -12,7 +12,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       path: "/images/cat_16x16.png",
       tabId: tabId
     });
-    if (changeInfo.status === "complete" && tabId !== currentListID) {
+    if ((changeInfo.status === "complete" && tabId !== currentListID) || changeInfo.status === "loading") {
       chrome.storage.sync.remove("content");
       chrome.storage.sync.remove("buttonStates");
       chrome.storage.sync.remove("ratingValue");

@@ -1,9 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  chrome.runtime.onMessage.addListener(function (
-    message,
-    sender,
-    sendResponse
-  ) {
+  chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     const loadingAnim = document.querySelector(".loadingAnimation");
 
     if (message.content) {
@@ -36,9 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const contentYearElement = document.getElementById("contentYear");
     const contentRuntimeElement = document.getElementById("contentRuntime");
     const contentGenresElement = document.getElementById("contentGenres");
-    const contentImageElement = document
-      .getElementById("contentImage")
-      .querySelector("img");
+    const contentImageElement = document.getElementById("contentImage").querySelector("img");
     contentContainer.removeAttribute("hidden");
     contentNameElement.textContent = data.content.rndContentName;
     contentRatingElement.textContent = data.content.rndContentImdbRating;
@@ -51,10 +45,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const value = document.querySelector(".sliderValue");
   const input = document.querySelector(".ratingSlider");
+  const delay = document.getElementById("delaySelect");
 
   value.textContent = input.value;
   input.addEventListener("input", event => {
     value.textContent = event.target.value;
+  });
+
+  input.addEventListener("change", function () {
+    chrome.storage.sync.set({ ratingValue: input.value });
+  });
+
+  delay.addEventListener("change", function () {
+    chrome.storage.sync.set({
+      speed: delay.value
+    });
   });
 
   chrome.storage.sync.get(["content"], function (result) {
@@ -63,60 +68,47 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  chrome.storage.sync.get(
-    ["buttonStates", "speed", "ratingValue"],
-    function (result) {
-      if (result.buttonStates !== undefined) {
-        loadedBtnVisuals();
-      }
-      if (result.ratingValue) {
-        input.value = result.ratingValue;
-        value.textContent = result.ratingValue;
-      }
-      if (result.speed) {
-        document.getElementById("delaySelect").value = result.speed;
-      }
+  chrome.storage.sync.get(["buttonStates", "speed", "ratingValue"], function (result) {
+    if (result.buttonStates !== undefined) {
+      loadedBtnVisuals();
     }
-  );
+    if (result.ratingValue) {
+      input.value = result.ratingValue;
+      value.textContent = result.ratingValue;
+    }
+    if (result.speed) {
+      delay.value = result.speed;
+    }
+  });
 
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     var currentTab = tabs[0];
 
-    document
-      .getElementById("contentLoadBtn")
-      .addEventListener("click", function () {
-        chrome.tabs.query(
-          { active: true, currentWindow: true },
-          function (tabs) {
-            const delay = document.getElementById("delaySelect").value;
+    document.getElementById("contentLoadBtn").addEventListener("click", function () {
+      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        delay.value;
 
-            chrome.storage.sync.set({ speed: delay, ratingValue: input.value });
+        chrome.storage.sync.set({ speed: delay, ratingValue: input.value });
 
-            chrome.tabs.sendMessage(currentTab.id, {
-              command: "loadButtonClicker",
-              delay: delay
-            });
-          }
-        );
+        chrome.tabs.sendMessage(currentTab.id, {
+          command: "loadButtonClicker",
+          delay: delay
+        });
       });
+    });
 
-    document
-      .getElementById("randomPickerBtn")
-      .addEventListener("click", function () {
-        chrome.tabs.query(
-          { active: true, currentWindow: true },
-          function (tabs) {
-            const delay = document.getElementById("delaySelect").value;
+    document.getElementById("randomPickerBtn").addEventListener("click", function () {
+      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        delay.value;
 
-            chrome.storage.sync.set({ speed: delay, ratingValue: input.value });
+        chrome.storage.sync.set({ speed: delay, ratingValue: input.value });
 
-            chrome.tabs.sendMessage(currentTab.id, {
-              command: "pickContent",
-              delay: delay,
-              input: input.value
-            });
-          }
-        );
+        chrome.tabs.sendMessage(currentTab.id, {
+          command: "pickContent",
+          delay: delay,
+          input: input.value
+        });
       });
+    });
   });
 });

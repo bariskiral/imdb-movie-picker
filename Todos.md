@@ -4,7 +4,7 @@
 
 ## Fix:
 
-- Fix the issue when reloding the same page.
+- Unchecked runtime.lastError: No tab with id: <<tab id>>.
 
 ## Visual:
 

@@ -40,6 +40,31 @@ button:disabled {
   font-size: var(--font-size-mid);
 }
 
+.inactiveContainer {
+  width: 200px;
+  margin: 0;
+  background-color: var(--imdb-dark-color);
+  font-size: var(--font-size-mid);
+}
+
+.inactiveContainer > p {
+  margin: 0;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.inactiveContainer > a {
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--imdb-color);
+  text-decoration: none;
+}
+
 .hidden {
   opacity: 0;
 }
