@@ -44,10 +44,6 @@ const pickContent = (delay, input) => {
     }
   });
   const rnd = Math.floor(Math.random() * filteredContent.length);
-  console.log(initialContent);
-  console.log(filteredContent);
-  console.log(initialContent.length);
-  console.log(filteredContent.length);
   collectContent(initialContent[filteredContent[rnd].index], delay);
 };
 

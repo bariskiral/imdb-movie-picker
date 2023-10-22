@@ -88,11 +88,11 @@ document.addEventListener("DOMContentLoaded", function () {
       chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         delay.value;
 
-        chrome.storage.sync.set({ speed: delay, ratingValue: input.value });
+        chrome.storage.sync.set({ speed: delay.value, ratingValue: input.value });
 
         chrome.tabs.sendMessage(currentTab.id, {
           command: "loadButtonClicker",
-          delay: delay
+          delay: delay.value
         });
       });
     });
@@ -101,11 +101,11 @@ document.addEventListener("DOMContentLoaded", function () {
       chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         delay.value;
 
-        chrome.storage.sync.set({ speed: delay, ratingValue: input.value });
+        chrome.storage.sync.set({ speed: delay.value, ratingValue: input.value });
 
         chrome.tabs.sendMessage(currentTab.id, {
           command: "pickContent",
-          delay: delay,
+          delay: delay.value,
           input: input.value
         });
       });

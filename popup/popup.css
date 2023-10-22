@@ -87,7 +87,7 @@ button:disabled {
   position: absolute;
 }
 
-.sliderRow {
+.sliderDiv {
   display: flex;
   justify-content: center;
   align-items: center;
