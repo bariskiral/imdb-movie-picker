@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (message.isLoading) {
-      document.querySelector(".selectDiv").setAttribute("hidden", "");
+      document.querySelector(".selectDiv").classList.add("hidden");
       loadingAnim.classList.remove("hidden");
     } else {
       loadedBtnVisuals();
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("randomPickerBtn").removeAttribute("disabled");
     document.getElementById("contentLoadBtn").textContent = "All Loaded!";
     document.getElementById("contentLoadBtn").setAttribute("disabled", "");
-    document.querySelector(".selectDiv").removeAttribute("hidden");
+    document.querySelector(".selectDiv").classList.remove("hidden");
   };
 
   const contentReceiver = data => {
@@ -33,10 +33,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const contentRuntimeElement = document.getElementById("contentRuntime");
     const contentGenresElement = document.getElementById("contentGenres");
     const contentImageElement = document.getElementById("contentImage").querySelector("img");
+    const contentLinkElement = document.getElementById("contentImage").querySelector("a");
     contentContainer.removeAttribute("hidden");
     contentNameElement.textContent = data.content.rndContentName;
     contentRatingElement.textContent = data.content.rndContentImdbRating;
     contentImageElement.src = data.content.rndContentImage;
+    contentLinkElement.href = data.content.rndContentLink;
     contentImageElement.removeAttribute("hidden");
     contentYearElement.textContent = data.content.rndContentYear;
     contentRuntimeElement.textContent = data.content.rndContentRuntime;

@@ -57,6 +57,7 @@ const collectContent = async (contents, delay) => {
   contents.scrollIntoView();
 
   const rndContentName = contents.querySelector(".lister-item-header a")?.textContent || "UNKNOWN";
+  const rndContentLink = contents.querySelector(".lister-item-header a")?.href || "#";
   const rndContentImage = await new Promise(resolve => {
     setTimeout(() => {
       resolve(
@@ -81,6 +82,7 @@ const collectContent = async (contents, delay) => {
     chrome.runtime.sendMessage({
       content: {
         rndContentName,
+        rndContentLink,
         rndContentImage,
         rndContentYear,
         rndContentRuntime,
@@ -94,6 +96,7 @@ const collectContent = async (contents, delay) => {
     chrome.storage.sync.set({
       content: {
         rndContentName,
+        rndContentLink,
         rndContentImage,
         rndContentYear,
         rndContentRuntime,
