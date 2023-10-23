@@ -9,7 +9,12 @@
   </head>
   <body>
     <div class="container">
-      <div class="row popupHeader">IMDb Picker</div>
+      <div class="row">
+        <div class="popupHeader">IMDb Picker</div>
+        <button class="questionMark">
+          <img src="../images/question_mark.png" width="25rem" height="25rem" />
+        </button>
+      </div>
       <div class="row">
         <button id="contentLoadBtn">Load All</button>
         <button disabled id="randomPickerBtn">Random Pick</button>
@@ -25,10 +30,10 @@
           </select>
         </div>
         <div>
-          <img class="loadingAnimation hidden" src="../images/loading.gif" />
+          <img class="loadingAnimation hidden" src="../images/loading_dots.gif" />
         </div>
       </div>
-      <div class="row">
+      <div class="row sliderRow hidden">
         <input style="margin-right: 1rem" class="ratingSlider" type="range" min="0" max="9" value="0" />
         <div class="sliderDiv">
           <img style="margin-right: 0.25rem" src="/images/star.png" width="12rem" height="12rem" />

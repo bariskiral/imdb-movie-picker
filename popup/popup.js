@@ -10,10 +10,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (message.isLoading) {
       document.querySelector(".selectDiv").classList.add("hidden");
       loadingAnim.classList.remove("hidden");
+      document.getElementById("contentImage").querySelector("img").src = "../images/loading_img.gif";
     } else {
       loadedBtnVisuals();
       loadingAnim.classList.add("hidden");
-
       chrome.storage.sync.set({ buttonStates: message.isLoading });
     }
   });
@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("contentLoadBtn").textContent = "All Loaded!";
     document.getElementById("contentLoadBtn").setAttribute("disabled", "");
     document.querySelector(".selectDiv").classList.remove("hidden");
+    document.querySelector(".row.sliderRow").classList.remove("hidden");
   };
 
   const contentReceiver = data => {
