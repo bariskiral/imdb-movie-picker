@@ -2,21 +2,26 @@ document.addEventListener("DOMContentLoaded", function () {
   chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     const loadingAnim = document.querySelector(".loadingAnimation");
 
+    // The content has been received and set to storage.
     if (message.content) {
       contentReceiver(message);
       chrome.storage.sync.set({ content: message.content });
     }
-
+    // The content is loading.
     if (message.isLoading) {
       document.querySelector(".selectDiv").classList.add("hidden");
       loadingAnim.classList.remove("hidden");
       document.getElementById("contentImage").querySelector("img").src = "../media/gifs/loading_img.gif";
-    } else {
+    }
+    // The content is loaded and button states set to storage.
+    else {
       loadedBtnVisuals();
       loadingAnim.classList.add("hidden");
       chrome.storage.sync.set({ buttonStates: message.isLoading });
     }
   });
+
+  // Setting up UI elements.
 
   const loadedBtnVisuals = () => {
     document.getElementById("randomPickerBtn").removeAttribute("disabled");
@@ -26,6 +31,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector(".sliderRow").classList.remove("hidden");
     document.querySelector(".clickText").setAttribute("hidden", "");
   };
+
+  // Sending the content to popup DOM.
 
   const contentReceiver = data => {
     const contentContainer = document.querySelector(".contentContainer");
@@ -47,19 +54,34 @@ document.addEventListener("DOMContentLoaded", function () {
     contentGenresElement.textContent = data.content.rndContentGenres;
   };
 
+  // Initial values.
+
   const value = document.querySelector(".sliderValue");
   const input = document.querySelector(".ratingSlider");
   const delay = document.getElementById("delaySelect");
   let qmClicked = false;
 
-  value.textContent = input.value;
+  if (input.value === "0") {
+    value.textContent = "All";
+  } else {
+    value.textContent = "Lowest " + input.value;
+  }
+
   input.addEventListener("input", event => {
-    value.textContent = event.target.value;
+    if (input.value === "0") {
+      value.textContent = "All";
+    } else {
+      value.textContent = "Lowest " + event.target.value;
+    }
   });
+
+  // Listening rating slider changes.
 
   input.addEventListener("change", function () {
     chrome.storage.sync.set({ ratingValue: input.value });
   });
+
+  // Listenin delay selection changes
 
   delay.addEventListener("change", function () {
     chrome.storage.sync.set({
@@ -67,11 +89,15 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  // Getting content from storage.
+
   chrome.storage.sync.get(["content"], function (result) {
     if (result.content) {
       contentReceiver(result);
     }
   });
+
+  // Getting visuals and inputs from storage.
 
   chrome.storage.sync.get(["buttonStates", "speed", "ratingValue"], function (result) {
     if (result.buttonStates !== undefined) {
@@ -79,12 +105,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     if (result.ratingValue) {
       input.value = result.ratingValue;
-      value.textContent = result.ratingValue;
+      value.textContent = "Lowest " + result.ratingValue;
     }
     if (result.speed) {
       delay.value = result.speed;
     }
   });
+
+  // Button listeners.
 
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     var currentTab = tabs[0];

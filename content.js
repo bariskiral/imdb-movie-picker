@@ -1,5 +1,7 @@
 let isClicked = false;
 
+// Clicking the "LOAD MORE" button until there is no "LOAD MORE" button.
+
 const loadButtonClicker = delay => {
   const loadButton = document.querySelector(".load-more");
   isClicked = true;
@@ -29,6 +31,8 @@ const loadButtonClicker = delay => {
   }
 };
 
+// Filtering the content element with rating input and then picking a random element.
+
 const pickContent = (delay, input) => {
   const initialContent = document.querySelectorAll(".lister-item");
   const contentsArray = Array.from(initialContent).map((content, index) => ({
@@ -48,6 +52,8 @@ const pickContent = (delay, input) => {
   const rnd = Math.floor(Math.random() * filteredContent.length);
   collectContent(initialContent[filteredContent[rnd].index], delay);
 };
+
+// Collecting all the data from select random element.
 
 const collectContent = async (contents, delay) => {
   isClicked = true;
@@ -97,12 +103,16 @@ const collectContent = async (contents, delay) => {
   }
 };
 
+// Scrolling to ".lister-page-anchor" named elements to stop lazy loading.
+
 const scrollToAnchor = () => {
   const listerPageAnchor = document.querySelectorAll(".lister-page-anchor");
   Array.from(listerPageAnchor).map(anchor => {
     return anchor.scrollIntoView();
   });
 };
+
+// Listen messages for buttons.
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   const delay = message.delay;
