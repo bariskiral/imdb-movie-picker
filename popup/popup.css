@@ -49,6 +49,10 @@ select {
   transition: border-color 0.5s;
 }
 
+option {
+  text-align: center;
+}
+
 select:hover {
   border-color: var(--imdb-color);
 }
@@ -98,6 +102,10 @@ img:hover.contentCover {
   text-decoration: none;
 }
 
+.qMark {
+  animation: shake 10s ease-in-out 5s infinite;
+}
+
 .hidden {
   opacity: 0;
   transition: opacity 1s;
@@ -130,6 +138,19 @@ img:hover.contentCover {
   align-items: center;
 }
 
+.sliderRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.clickText {
+  position: absolute;
+  pointer-events: none;
+  animation: clickText 5s infinite ease-in-out;
+}
+
 .ratingSlider {
   cursor: pointer;
 }
@@ -143,4 +164,53 @@ img:hover.contentCover {
   top: 0.5rem;
   right: 0.5rem;
   border: none;
+}
+
+.linksContainer > a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--imdb-color);
+  text-decoration: none;
+  padding: 0 0.5rem;
+}
+
+.heart {
+  padding: 0 0.5rem;
+  color: red;
+  animation: heart 2s infinite ease;
+}
+
+@keyframes heart {
+  0%,
+  100% {
+    color: red;
+  }
+
+  50% {
+    color: var(--imdb-color);
+  }
+}
+
+@keyframes clickText {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.9);
+  }
+}
+
+@keyframes shake {
+  0%,
+  20%,
+  100% {
+    transform: scale(1);
+  }
+
+  10% {
+    transform: scale(0.7);
+  }
 }

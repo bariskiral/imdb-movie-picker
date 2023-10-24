@@ -20,10 +20,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const loadedBtnVisuals = () => {
     document.getElementById("randomPickerBtn").removeAttribute("disabled");
-    document.getElementById("contentLoadBtn").textContent = "All Loaded!";
+    document.getElementById("contentLoadBtn").textContent = "All Loaded ✅";
     document.getElementById("contentLoadBtn").setAttribute("disabled", "");
     document.querySelector(".selectDiv").classList.remove("hidden");
-    document.querySelector(".row.sliderRow").classList.remove("hidden");
+    document.querySelector(".sliderRow").classList.remove("hidden");
+    document.querySelector(".clickText").classList.add("hidden");
   };
 
   const contentReceiver = data => {
@@ -49,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const value = document.querySelector(".sliderValue");
   const input = document.querySelector(".ratingSlider");
   const delay = document.getElementById("delaySelect");
+  let qmClicked = false;
 
   value.textContent = input.value;
   input.addEventListener("input", event => {
@@ -88,6 +90,8 @@ document.addEventListener("DOMContentLoaded", function () {
     var currentTab = tabs[0];
 
     document.getElementById("contentLoadBtn").addEventListener("click", function () {
+      document.querySelector(".questionContainer").setAttribute("hidden", "true");
+      qmClicked = !qmClicked;
       chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         delay.value;
 
@@ -101,6 +105,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("randomPickerBtn").addEventListener("click", function () {
+      document.querySelector(".questionContainer").setAttribute("hidden", "true");
+      qmClicked = !qmClicked;
       chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         delay.value;
 
@@ -112,6 +118,21 @@ document.addEventListener("DOMContentLoaded", function () {
           input: input.value
         });
       });
+    });
+
+    document.querySelector(".questionMark").addEventListener("click", function () {
+      if (!qmClicked) {
+        document.querySelector(".questionContainer").removeAttribute("hidden");
+        document.querySelector(".contentContainer").setAttribute("hidden", "true");
+        qmClicked = !qmClicked;
+      } else if (qmClicked && "" !== document.getElementById("contentName").textContent) {
+        document.querySelector(".questionContainer").setAttribute("hidden", "true");
+        document.querySelector(".contentContainer").removeAttribute("hidden");
+        qmClicked = !qmClicked;
+      } else {
+        document.querySelector(".questionContainer").setAttribute("hidden", "true");
+        qmClicked = !qmClicked;
+      }
     });
   });
 });

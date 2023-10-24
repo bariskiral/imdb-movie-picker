@@ -18,12 +18,10 @@ const loadButtonClicker = delay => {
       }, delay);
     });
   } else {
-    if (isClicked) {
-      chrome.runtime.sendMessage({
-        isLoading: false
-      });
-      isClicked = false;
-    }
+    chrome.runtime.sendMessage({
+      isLoading: false
+    });
+    isClicked = false;
   }
 };
 

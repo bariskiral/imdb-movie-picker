@@ -12,7 +12,7 @@
       <div class="row">
         <div class="popupHeader">IMDb Picker</div>
         <button class="questionMark">
-          <img src="../images/question_mark.png" width="25rem" height="25rem" />
+          <img class="qMark" src="../images/question_mark.png" width="25rem" height="25rem" />
         </button>
       </div>
       <div class="row">
@@ -23,24 +23,42 @@
         <div class="selectDiv">
           <label style="margin-right: 0.5rem" for="delaySelect">Speed:</label>
           <select id="delaySelect">
-            <option value="500" selected>Fast</option>
-            <option value="1000">Normal</option>
-            <option value="3000">Slow</option>
-            <option value="5000">Potato</option>
+            <option value="500">Fast (0.5s)</option>
+            <option value="1000 " selected>Normal (1s)</option>
+            <option value="3000">Slow (3s)</option>
+            <option value="5000">Potato (5s)</option>
           </select>
         </div>
         <div>
           <img class="loadingAnimation hidden" src="../images/loading_dots.gif" />
         </div>
       </div>
-      <div class="row sliderRow hidden">
-        <input style="margin-right: 1rem" class="ratingSlider" type="range" min="0" max="9" value="0" />
-        <div class="sliderDiv">
-          <img style="margin-right: 0.25rem" src="/images/star.png" width="12rem" height="12rem" />
-          <output class="sliderValue"></output>
+      <div class="row">
+        <div class="sliderRow hidden">
+          <input style="margin-right: 1rem" class="ratingSlider" type="range" min="0" max="9" value="0" />
+          <div class="sliderDiv">
+            <img style="margin-right: 0.25rem" src="/images/star.png" width="12rem" height="12rem" />
+            <output class="sliderValue"></output>
+          </div>
+        </div>
+        <div class="clickText">Click the "Load All" button</div>
+      </div>
+      <div hidden="true" class="questionContainer">
+        <div>
+          <div class="row">
+            <p>
+              You can randomly select content from your IMDb Watchlist. The speed option is for slow internet and there
+              is a rating filter to set a minimum rating.
+            </p>
+          </div>
+          <div class="row linksContainer">
+            <a href="https://twitter.com/barisskiral" target="_blank">Twitter</a>
+            <a href="https://github.com/bariskiral" target="_blank">Github</a>
+            <a href="#" target="_blank">Rate<span class="heart">♥</span></a>
+          </div>
         </div>
       </div>
-      <div hidden class="contentContainer">
+      <div hidden="true" class="contentContainer">
         <div class="row" id="contentName"></div>
         <div class="row" id="contentImage">
           <a href="#placeholder" target="_blank">
