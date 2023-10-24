@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     const loadingAnim = document.querySelector(".loadingAnimation");
+    const clickText = document.querySelector(".clickText");
 
     // The content has been received and set to storage.
     if (message.content) {
@@ -12,6 +13,9 @@ document.addEventListener("DOMContentLoaded", function () {
       document.querySelector(".selectDiv").classList.add("hidden");
       loadingAnim.classList.remove("hidden");
       document.getElementById("contentImage").querySelector("img").src = "../media/gifs/loading_img.gif";
+      clickText.textContent = "Loading...";
+      clickText.classList.remove("clickTextAnim1");
+      clickText.classList.add("clickTextAnim2");
     }
     // The content is loaded and button states set to storage.
     else {
@@ -116,9 +120,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     var currentTab = tabs[0];
+    const questionContainer = document.querySelector(".questionContainer");
+    const contentContainer = document.querySelector(".contentContainer");
 
     document.getElementById("contentLoadBtn").addEventListener("click", function () {
-      document.querySelector(".questionContainer").setAttribute("hidden", "");
+      questionContainer.setAttribute("hidden", "");
       qmClicked = !qmClicked;
       chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         delay.value;
@@ -131,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("randomPickerBtn").addEventListener("click", function () {
-      document.querySelector(".questionContainer").setAttribute("hidden", "");
+      questionContainer.setAttribute("hidden", "");
       qmClicked = !qmClicked;
       chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         delay.value;
@@ -146,15 +152,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.querySelector(".questionMark").addEventListener("click", function () {
       if (!qmClicked) {
-        document.querySelector(".questionContainer").removeAttribute("hidden");
-        document.querySelector(".contentContainer").setAttribute("hidden", "");
+        questionContainer.removeAttribute("hidden");
+        contentContainer.setAttribute("hidden", "");
         qmClicked = !qmClicked;
       } else if (qmClicked && "" !== document.getElementById("contentName").textContent) {
-        document.querySelector(".questionContainer").setAttribute("hidden", "");
-        document.querySelector(".contentContainer").removeAttribute("hidden");
+        questionContainer.setAttribute("hidden", "");
+        contentContainer.removeAttribute("hidden");
         qmClicked = !qmClicked;
       } else {
-        document.querySelector(".questionContainer").setAttribute("hidden", "");
+        questionContainer.setAttribute("hidden", "");
         qmClicked = !qmClicked;
       }
     });

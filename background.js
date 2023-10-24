@@ -13,11 +13,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       tabId: tabId
     });
     if ((changeInfo.status === "complete" && tabId !== currentListID) || changeInfo.status === "loading") {
-      chrome.storage.sync.remove("content");
-      chrome.storage.sync.remove("buttonStates");
-      chrome.storage.sync.remove("ratingValue");
-      chrome.storage.sync.remove("speed");
-      currentListID = tabId;
+      resetStorage(tabId);
     }
   } else if (regexChromeExtensionsTab.test(tab.url)) {
     chrome.action.disable(tabId);
@@ -38,12 +34,16 @@ chrome.tabs.onActivated.addListener(activeInfo => {
   if (tabId) {
     chrome.tabs.get(tabId, currentTab => {
       if (regexPattern.test(currentTab.url) && currentListID !== tabId) {
-        chrome.storage.sync.remove("content");
-        chrome.storage.sync.remove("buttonStates");
-        chrome.storage.sync.remove("ratingValue");
-        chrome.storage.sync.remove("speed");
-        currentListID = tabId;
+        resetStorage(tabId);
       }
     });
   } else return;
 });
+
+const resetStorage = tabId => {
+  chrome.storage.sync.remove("content");
+  chrome.storage.sync.remove("buttonStates");
+  chrome.storage.sync.remove("ratingValue");
+  chrome.storage.sync.remove("speed");
+  currentListID = tabId;
+};

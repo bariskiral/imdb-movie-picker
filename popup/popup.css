@@ -102,14 +102,18 @@ img:hover.contentCover {
   text-decoration: none;
 }
 
-.qMark {
-  animation: shake 10s ease-in-out 5s infinite;
-}
-
 .hidden {
   opacity: 0;
   transition: opacity 1s;
   pointer-events: none;
+}
+
+#contentName {
+  font-weight: bold;
+}
+
+.qMark {
+  animation: shake 10s ease-in-out 5s infinite;
 }
 
 .row {
@@ -121,15 +125,13 @@ img:hover.contentCover {
   border: var(--imdb-color) solid 0.1rem;
 }
 
-.loadingAnimation {
-  width: 3rem;
-  height: 1.2rem;
-  pointer-events: none;
-}
-
 .selectDiv {
   position: absolute;
   transition: opacity 0.3s;
+}
+
+.ratingSlider {
+  cursor: pointer;
 }
 
 .sliderDiv {
@@ -148,11 +150,20 @@ img:hover.contentCover {
 .clickText {
   position: absolute;
   pointer-events: none;
+}
+
+.clickTextAnim1 {
   animation: clickText 5s infinite ease-in-out;
 }
 
-.ratingSlider {
-  cursor: pointer;
+.clickTextAnim2 {
+  animation: heart 1s infinite ease-in-out;
+}
+
+.loadingAnimation {
+  width: 3rem;
+  height: 1.2rem;
+  pointer-events: none;
 }
 
 .questionMark {
