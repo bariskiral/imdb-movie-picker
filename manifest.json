@@ -3,20 +3,20 @@
   "name": "IMDb Picker",
   "version": "1.0",
   "description": "A simple Chrome extension that allows you to pick a content from your watchlist.",
-  "permissions": ["activeTab", "scripting", "tabs", "storage"],
+  "permissions": ["activeTab", "tabs", "storage"],
   "icons": {
-    "16": "images/cat_16x16.png",
-    "32": "images/cat_32x32.png",
-    "48": "images/cat_48x48.png",
-    "128": "images/cat_128x128.png"
+    "16": "media/logos/IMDb_Logo_16.png",
+    "32": "media/logos/IMDb_Logo_32.png",
+    "48": "media/logos/IMDb_Logo_48.png",
+    "128": "media/logos/IMDb_Logo_128.png"
   },
   "action": {
     "default_popup": "popup/popup.html",
     "default_icon": {
-      "16": "images/cat_16x16.png",
-      "32": "images/cat_32x32.png",
-      "48": "images/cat_48x48.png",
-      "128": "images/cat_128x128.png"
+      "16": "media/logos/IMDb_Logo_16.png",
+      "32": "media/logos/IMDb_Logo_32.png",
+      "48": "media/logos/IMDb_Logo_48.png",
+      "128": "media/logos/IMDb_Logo_128.png"
     }
   },
   "background": {

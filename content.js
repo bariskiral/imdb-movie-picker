@@ -22,6 +22,10 @@ const loadButtonClicker = delay => {
       isLoading: false
     });
     isClicked = false;
+
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, delay / 2);
   }
 };
 
@@ -61,7 +65,7 @@ const collectContent = async (contents, delay) => {
       resolve(
         contents.querySelector(".lister-item-image a img").src.includes("https://m.media-amazon.com")
           ? contents.querySelector(".lister-item-image a img").src
-          : "/images/tv.png"
+          : "/media/logos/IMDb_Logo_128_Alt.png"
       );
     }, delay / 2);
   });
@@ -90,18 +94,6 @@ const collectContent = async (contents, delay) => {
       isLoading: false
     });
     isClicked = false;
-
-    chrome.storage.sync.set({
-      content: {
-        rndContentName,
-        rndContentLink,
-        rndContentImage,
-        rndContentYear,
-        rndContentRuntime,
-        rndContentGenres,
-        rndContentImdbRating
-      }
-    });
   }
 };
 

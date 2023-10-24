@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (message.isLoading) {
       document.querySelector(".selectDiv").classList.add("hidden");
       loadingAnim.classList.remove("hidden");
-      document.getElementById("contentImage").querySelector("img").src = "../images/loading_img.gif";
+      document.getElementById("contentImage").querySelector("img").src = "../media/gifs/loading_img.gif";
     } else {
       loadedBtnVisuals();
       loadingAnim.classList.add("hidden");
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("contentLoadBtn").setAttribute("disabled", "");
     document.querySelector(".selectDiv").classList.remove("hidden");
     document.querySelector(".sliderRow").classList.remove("hidden");
-    document.querySelector(".clickText").classList.add("hidden");
+    document.querySelector(".clickText").setAttribute("hidden", "");
   };
 
   const contentReceiver = data => {
@@ -90,12 +90,10 @@ document.addEventListener("DOMContentLoaded", function () {
     var currentTab = tabs[0];
 
     document.getElementById("contentLoadBtn").addEventListener("click", function () {
-      document.querySelector(".questionContainer").setAttribute("hidden", "true");
+      document.querySelector(".questionContainer").setAttribute("hidden", "");
       qmClicked = !qmClicked;
       chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         delay.value;
-
-        chrome.storage.sync.set({ speed: delay.value, ratingValue: input.value });
 
         chrome.tabs.sendMessage(currentTab.id, {
           command: "loadButtonClicker",
@@ -105,12 +103,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("randomPickerBtn").addEventListener("click", function () {
-      document.querySelector(".questionContainer").setAttribute("hidden", "true");
+      document.querySelector(".questionContainer").setAttribute("hidden", "");
       qmClicked = !qmClicked;
       chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         delay.value;
-
-        chrome.storage.sync.set({ speed: delay.value, ratingValue: input.value });
 
         chrome.tabs.sendMessage(currentTab.id, {
           command: "pickContent",
@@ -123,14 +119,14 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector(".questionMark").addEventListener("click", function () {
       if (!qmClicked) {
         document.querySelector(".questionContainer").removeAttribute("hidden");
-        document.querySelector(".contentContainer").setAttribute("hidden", "true");
+        document.querySelector(".contentContainer").setAttribute("hidden", "");
         qmClicked = !qmClicked;
       } else if (qmClicked && "" !== document.getElementById("contentName").textContent) {
-        document.querySelector(".questionContainer").setAttribute("hidden", "true");
+        document.querySelector(".questionContainer").setAttribute("hidden", "");
         document.querySelector(".contentContainer").removeAttribute("hidden");
         qmClicked = !qmClicked;
       } else {
-        document.querySelector(".questionContainer").setAttribute("hidden", "true");
+        document.querySelector(".questionContainer").setAttribute("hidden", "");
         qmClicked = !qmClicked;
       }
     });

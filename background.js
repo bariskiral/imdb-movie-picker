@@ -9,7 +9,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       tabId: tabId
     });
     chrome.action.setIcon({
-      path: "/images/cat_16x16.png",
+      path: "/media/logos/IMDb_Logo_16.png",
       tabId: tabId
     });
     if ((changeInfo.status === "complete" && tabId !== currentListID) || changeInfo.status === "loading") {
@@ -27,7 +27,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       tabId: tabId
     });
     chrome.action.setIcon({
-      path: "/images/tv.png",
+      path: "/media/logos/IMDb_Logo_16.png",
       tabId: tabId
     });
   }
@@ -35,13 +35,15 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 chrome.tabs.onActivated.addListener(activeInfo => {
   const tabId = activeInfo.tabId;
-  chrome.tabs.get(tabId, currentTab => {
-    if (regexPattern.test(currentTab.url) && currentListID !== tabId) {
-      chrome.storage.sync.remove("content");
-      chrome.storage.sync.remove("buttonStates");
-      chrome.storage.sync.remove("ratingValue");
-      chrome.storage.sync.remove("speed");
-      currentListID = tabId;
-    }
-  });
+  if (tabId) {
+    chrome.tabs.get(tabId, currentTab => {
+      if (regexPattern.test(currentTab.url) && currentListID !== tabId) {
+        chrome.storage.sync.remove("content");
+        chrome.storage.sync.remove("buttonStates");
+        chrome.storage.sync.remove("ratingValue");
+        chrome.storage.sync.remove("speed");
+        currentListID = tabId;
+      }
+    });
+  } else return;
 });
