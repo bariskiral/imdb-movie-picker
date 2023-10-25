@@ -21,12 +21,16 @@
       </div>
       <div class="row">
         <div class="selectDiv">
-          <label style="margin-right: 0.5rem" for="delaySelect">Speed:</label>
           <select id="delaySelect">
             <option value="500">Fast (0.5s)</option>
             <option value="1000 " selected>Normal (1s)</option>
             <option value="3000">Slow (3s)</option>
             <option value="5000">Potato (5s)</option>
+          </select>
+          <select id="typeSelect">
+            <option value="1" selected>All</option>
+            <option value="2">Movies</option>
+            <option value="3">TV Series</option>
           </select>
         </div>
         <div>
@@ -35,7 +39,7 @@
       </div>
       <div class="row">
         <div class="sliderRow hidden">
-          <input style="margin-right: 1rem" class="ratingSlider" type="range" min="0" max="9" value="0" />
+          <input style="margin-right: 1rem" class="ratingSlider" type="range" min="0" max="10" value="0" />
           <div class="sliderDiv">
             <img style="margin-right: 0.25rem" src="/media/images/star.png" width="12rem" height="12rem" />
             <output class="sliderValue"></output>
@@ -45,11 +49,12 @@
       </div>
       <div hidden class="questionContainer">
         <div>
-          <div class="row">
+          <div class="aboutPage">
             <p>
               You can randomly select content from your IMDb Watchlist. <br />The speed option is for slow internet and
               there is a rating filter to set a minimum rating. <br />If something goes wrong just reload the page.
             </p>
+            <a href="https://github.com/bariskiral/imdb-picker/blob/main/README.md" target="_blank">More Info 👆</a>
           </div>
           <div class="row linksContainer">
             <a href="https://twitter.com/barisskiral" target="_blank">Twitter</a>
@@ -74,6 +79,7 @@
         <div class="row" id="contentRuntime"></div>
         <div class="row" id="contentGenres"></div>
       </div>
+      <div hidden class="emptyContent">There is no content with this filters.</div>
     </div>
     <script src="popup.js"></script>
   </body>

@@ -2,13 +2,25 @@ document.addEventListener("DOMContentLoaded", function () {
   chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     const loadingAnim = document.querySelector(".loadingAnimation");
     const clickText = document.querySelector(".clickText");
+    const emptyContentText = document.querySelector(".emptyContent");
 
     // The content has been received and set to storage.
+
     if (message.content) {
+      emptyContentText.setAttribute("hidden", "");
       contentReceiver(message);
       chrome.storage.sync.set({ content: message.content });
     }
+
+    // There is no content.
+
+    if (message.emptyContent) {
+      document.querySelector(".contentContainer").setAttribute("hidden", "");
+      emptyContentText.removeAttribute("hidden");
+    }
+
     // The content is loading.
+
     if (message.isLoading) {
       document.querySelector(".selectDiv").classList.add("hidden");
       loadingAnim.classList.remove("hidden");
@@ -60,36 +72,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Initial values.
 
-  const value = document.querySelector(".sliderValue");
-  const input = document.querySelector(".ratingSlider");
-  const delay = document.getElementById("delaySelect");
+  const sliderValue = document.querySelector(".sliderValue");
+  const sliderInput = document.querySelector(".ratingSlider");
+  const selectDelay = document.getElementById("delaySelect");
+  const typeDelay = document.getElementById("typeSelect");
   let qmClicked = false;
 
-  if (input.value === "0") {
-    value.textContent = "All";
+  if (sliderInput.value === "0") {
+    sliderValue.textContent = "All";
   } else {
-    value.textContent = "Lowest " + input.value;
+    sliderValue.textContent = "Lowest " + sliderInput.value;
   }
 
-  input.addEventListener("input", event => {
-    if (input.value === "0") {
-      value.textContent = "All";
+  sliderInput.addEventListener("input", event => {
+    if (sliderInput.value === "0") {
+      sliderValue.textContent = "All";
     } else {
-      value.textContent = "Lowest " + event.target.value;
+      sliderValue.textContent = "Lowest " + event.target.value;
     }
   });
 
   // Listening rating slider changes.
 
-  input.addEventListener("change", function () {
-    chrome.storage.sync.set({ ratingValue: input.value });
+  sliderInput.addEventListener("change", function () {
+    chrome.storage.sync.set({ ratingValue: sliderInput.value });
   });
 
   // Listenin delay selection changes
 
-  delay.addEventListener("change", function () {
+  selectDelay.addEventListener("change", function () {
     chrome.storage.sync.set({
-      speed: delay.value
+      speed: selectDelay.value
+    });
+  });
+
+  // Listenin delay selection changes
+
+  typeDelay.addEventListener("change", function () {
+    chrome.storage.sync.set({
+      type: typeDelay.value
     });
   });
 
@@ -103,16 +124,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Getting visuals and inputs from storage.
 
-  chrome.storage.sync.get(["buttonStates", "speed", "ratingValue"], function (result) {
+  chrome.storage.sync.get(["buttonStates", "speed", "type", "ratingValue"], function (result) {
     if (result.buttonStates !== undefined) {
       loadedBtnVisuals();
     }
     if (result.ratingValue) {
-      input.value = result.ratingValue;
-      value.textContent = "Lowest " + result.ratingValue;
+      result.ratingValue === "0"
+        ? (sliderValue.textContent = "All")
+        : (sliderValue.textContent = "Lowest " + result.ratingValue);
+      sliderInput.value = result.ratingValue;
     }
     if (result.speed) {
-      delay.value = result.speed;
+      selectDelay.value = result.speed;
+    }
+    if (result.type) {
+      typeDelay.value = result.type;
     }
   });
 
@@ -127,11 +153,10 @@ document.addEventListener("DOMContentLoaded", function () {
       questionContainer.setAttribute("hidden", "");
       qmClicked = !qmClicked;
       chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        delay.value;
-
         chrome.tabs.sendMessage(currentTab.id, {
           command: "loadButtonClicker",
-          delay: delay.value
+          delay: selectDelay.value,
+          type: typeDelay.value
         });
       });
     });
@@ -140,12 +165,11 @@ document.addEventListener("DOMContentLoaded", function () {
       questionContainer.setAttribute("hidden", "");
       qmClicked = !qmClicked;
       chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        delay.value;
-
         chrome.tabs.sendMessage(currentTab.id, {
           command: "pickContent",
-          delay: delay.value,
-          input: input.value
+          delay: selectDelay.value,
+          input: sliderInput.value,
+          type: typeDelay.value
         });
       });
     });

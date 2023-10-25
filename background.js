@@ -45,5 +45,6 @@ const resetStorage = tabId => {
   chrome.storage.sync.remove("buttonStates");
   chrome.storage.sync.remove("ratingValue");
   chrome.storage.sync.remove("speed");
+  chrome.storage.sync.remove("type");
   currentListID = tabId;
 };

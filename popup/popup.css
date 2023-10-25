@@ -16,6 +16,8 @@ body {
 }
 
 button {
+  width: 8rem;
+  height: 2.5rem;
   font: inherit;
   font-size: var(--font-size-mid);
   color: #fff;
@@ -40,6 +42,8 @@ button:disabled {
 }
 
 select {
+  width: 7rem;
+  height: 1.75rem;
   padding: 0.15rem;
   border-radius: 0.4rem;
   cursor: pointer;
@@ -147,6 +151,11 @@ img:hover.contentCover {
   text-align: center;
 }
 
+.emptyContent {
+  padding: 0.5rem;
+  text-align: center;
+}
+
 .clickText {
   position: absolute;
   pointer-events: none;
@@ -167,6 +176,8 @@ img:hover.contentCover {
 }
 
 .questionMark {
+  width: 1.5rem;
+  height: 1.5rem;
   position: absolute;
   cursor: pointer;
   background-color: var(--imdb-dark-color);
@@ -175,6 +186,16 @@ img:hover.contentCover {
   top: 0.5rem;
   right: 0.5rem;
   border: none;
+}
+
+.aboutPage {
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.aboutPage > a {
+  color: var(--imdb-color);
+  text-decoration: none;
 }
 
 .linksContainer > a {

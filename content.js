@@ -33,24 +33,41 @@ const loadButtonClicker = delay => {
 
 // Filtering the content element with rating input and then picking a random element.
 
-const pickContent = (delay, input) => {
+const pickContent = (delay, type, input) => {
   const initialContent = document.querySelectorAll(".lister-item");
-  const contentsArray = Array.from(initialContent).map((content, index) => ({
-    contentRating: content.querySelector(".ratings-imdb-rating"),
+
+  const contentsArray = Array.from(initialContent).map((_content, index) => ({
+    contentRating: _content.querySelector(".ratings-imdb-rating"),
+    contentType: _content.classList.contains("featureFilm"),
     index
   }));
 
-  const filteredContent = contentsArray.filter(_content => {
-    if (input === "0") {
-      return _content;
-    } else if (_content.contentRating) {
-      return +_content.contentRating.textContent >= +input;
+  const filteredContent = contentsArray.filter(content => {
+    if (input === "0" && type === "1") {
+      return content;
+    } else if (content.contentRating && type === "1") {
+      return +content.contentRating.textContent >= +input;
+    } else if (content.contentRating && type === "2") {
+      return +content.contentRating.textContent >= +input && content.contentType;
+    } else if (content.contentRating && type === "3") {
+      return +content.contentRating.textContent >= +input && !content.contentType;
+    } else if (input === "0" && type === "2") {
+      return content.contentType;
+    } else if (input === "0" && type === "3") {
+      return !content.contentType;
     } else {
       return false;
     }
   });
-  const rnd = Math.floor(Math.random() * filteredContent.length);
-  collectContent(initialContent[filteredContent[rnd].index], delay);
+
+  if (filteredContent.length > 0) {
+    const rnd = Math.floor(Math.random() * filteredContent.length);
+    collectContent(initialContent[filteredContent[rnd].index], delay);
+  } else {
+    chrome.runtime.sendMessage({
+      emptyContent: true
+    });
+  }
 };
 
 // Collecting all the data from select random element.
@@ -116,10 +133,11 @@ const scrollToAnchor = () => {
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   const delay = message.delay;
+  const type = message.type;
   const input = message.input;
   if (message.command === "loadButtonClicker" && !isClicked) {
     Promise.all([loadButtonClicker(delay), scrollToAnchor()]);
   } else if (message.command === "pickContent" && !isClicked) {
-    pickContent(delay, input);
+    pickContent(delay, type, input);
   }
 });
