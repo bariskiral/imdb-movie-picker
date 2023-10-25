@@ -2,6 +2,8 @@ const regexPattern = /https:\/\/www\.imdb\.com.*watchlist/;
 const regexChromeExtensionsTab = /chrome:\/\/extensions/;
 let currentListID = null;
 
+// Tab control
+
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (regexPattern.test(tab.url)) {
     chrome.action.setPopup({

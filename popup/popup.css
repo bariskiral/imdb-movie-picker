@@ -154,6 +154,8 @@ img:hover.contentCover {
 .emptyContent {
   padding: 0.5rem;
   text-align: center;
+  font-weight: bold;
+  color: var(--imdb-color);
 }
 
 .clickText {

@@ -31,7 +31,7 @@ const loadButtonClicker = delay => {
   }
 };
 
-// Filtering the content element with rating input and then picking a random element.
+// Filtering the content element with rating and type input and then picking a random element.
 
 const pickContent = (delay, type, input) => {
   const initialContent = document.querySelectorAll(".lister-item");

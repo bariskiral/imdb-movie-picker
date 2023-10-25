@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("contentLoadBtn").addEventListener("click", function () {
       questionContainer.setAttribute("hidden", "");
       qmClicked = !qmClicked;
-      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.query({ active: true, currentWindow: true }, function () {
         chrome.tabs.sendMessage(currentTab.id, {
           command: "loadButtonClicker",
           delay: selectDelay.value,
@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("randomPickerBtn").addEventListener("click", function () {
       questionContainer.setAttribute("hidden", "");
       qmClicked = !qmClicked;
-      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.query({ active: true, currentWindow: true }, function () {
         chrome.tabs.sendMessage(currentTab.id, {
           command: "pickContent",
           delay: selectDelay.value,
