@@ -2,8 +2,7 @@
 
 A Google extension that can be used to pick content from your watchlist.
 
-<a href="https://chrome.google.com/webstore/detail/imdb-picker/fgphemfgilhlepdebnnejndnldgemfbg" target="_blank"><img alt="Chrome Web Store" src="https://github-production-user-asset-6210df.s3.amazonaws.com/41836294/278406124-dd949506-47e1-4a7c-ba4a-31920e5f2c72.png"></img></a>
-
+[![Chrome Web Store Logo](https://github-production-user-asset-6210df.s3.amazonaws.com/41836294/278406124-dd949506-47e1-4a7c-ba4a-31920e5f2c72.png)](https://chrome.google.com/webstore/detail/imdb-picker/fgphemfgilhlepdebnnejndnldgemfbg)
 
 ![1](https://github.com/bariskiral/imdb-picker/assets/41836294/acc3b7fc-351f-4814-88b1-1b50100bcf82)
 ![2](https://github.com/bariskiral/imdb-picker/assets/41836294/ba08b981-592d-4f49-bdee-b64e245f5c6b)
