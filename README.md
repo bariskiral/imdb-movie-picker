@@ -2,6 +2,9 @@
 
 A Google extension that can be used to pick content from your watchlist.
 
+![1](https://github.com/bariskiral/imdb-picker/assets/41836294/acc3b7fc-351f-4814-88b1-1b50100bcf82)
+![2](https://github.com/bariskiral/imdb-picker/assets/41836294/ba08b981-592d-4f49-bdee-b64e245f5c6b)
+
 ## FYI
 
 The extension only works with IMDb Watchlist because normal user lists have pagination. I already spent so much time with the watchlist so I didn't want to deal with that.
