@@ -12,7 +12,12 @@
       <div class="row">
         <div class="popupHeader">IMDb Picker</div>
         <button class="questionMark">
-          <img class="qMark" src="../media/images/question_mark.png" width="25rem" height="25rem" />
+          <img
+            class="qMark"
+            src="../media/images/question_mark.png"
+            width="25rem"
+            height="25rem"
+          />
         </button>
       </div>
       <div class="row">
@@ -34,14 +39,29 @@
           </select>
         </div>
         <div>
-          <img class="loadingAnimation hidden" src="../media/gifs/loading_dots.gif" />
+          <img
+            class="loadingAnimation hidden"
+            src="../media/gifs/loading_dots.gif"
+          />
         </div>
       </div>
       <div class="row">
         <div class="sliderRow hidden">
-          <input style="margin-right: 1rem" class="ratingSlider" type="range" min="0" max="9" value="0" />
+          <input
+            style="margin-right: 1rem"
+            class="ratingSlider"
+            type="range"
+            min="0"
+            max="9"
+            value="0"
+          />
           <div class="sliderDiv">
-            <img style="margin-right: 0.25rem" src="/media/images/star.png" width="12rem" height="12rem" />
+            <img
+              style="margin-right: 0.25rem"
+              src="/media/images/star.png"
+              width="12rem"
+              height="12rem"
+            />
             <output class="sliderValue"></output>
           </div>
         </div>
@@ -51,16 +71,23 @@
         <div>
           <div class="aboutPage">
             <p>
-              You can randomly select content from your IMDb Watchlist. <br />The speed option is for slow internet and
-              there is a rating filter to set a minimum rating. <br />If something goes wrong just reload the page.
+              You can randomly select content from your IMDb Watchlist.
+              <br />The first option is for internet speed and the second is for
+              content filter.<br />If something goes wrong just reload the page.
             </p>
-            <a href="https://github.com/bariskiral/imdb-picker/blob/main/README.md" target="_blank">More Info 👆</a>
+            <a
+              href="https://github.com/bariskiral/imdb-picker/blob/main/README.md"
+              target="_blank"
+              >More Info 👆</a
+            >
           </div>
           <div class="row linksContainer">
-            <a href="https://twitter.com/barisskiral" target="_blank">Twitter</a>
+            <a href="https://twitter.com/barisskiral" target="_blank"
+              >Twitter</a
+            >
             <a href="https://github.com/bariskiral" target="_blank">Github</a>
             <a
-              href="https://chrome.google.com/webstore/detail/imdb-picker/fgphemfgilhlepdebnnejndnldgemfbg/reviews"
+              href="https://chromewebstore.google.com/detail/imdb-picker/fgphemfgilhlepdebnnejndnldgemfbg/reviews"
               target="_blank"
               >Rate<span class="heart">♥</span></a
             >
@@ -71,11 +98,21 @@
         <div class="row" id="contentName"></div>
         <div class="row" id="contentImage">
           <a href="#placeholder" target="_blank">
-            <img class="contentCover" src="#placeholder" width="96rem" height="142rem" />
+            <img
+              class="contentCover"
+              src="#placeholder"
+              width="96rem"
+              height="142rem"
+            />
           </a>
         </div>
         <div class="row">
-          <img style="margin-right: 0.25rem" src="/media/images/star.png" width="16rem" height="16rem" />
+          <img
+            style="margin-right: 0.25rem"
+            src="/media/images/star.png"
+            width="16rem"
+            height="16rem"
+          />
           <div id="contentRating"></div>
         </div>
 
@@ -83,7 +120,9 @@
         <div class="row" id="contentRuntime"></div>
         <div class="row" id="contentGenres"></div>
       </div>
-      <div hidden class="emptyContent">There is no content with this filters.</div>
+      <div hidden class="emptyContent">
+        There is no content with this filters.
+      </div>
     </div>
     <script src="popup.js"></script>
   </body>

@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
-  chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+  chrome.runtime.onMessage.addListener(function (
+    message,
+    sender,
+    sendResponse
+  ) {
     const loadingAnim = document.querySelector(".loadingAnimation");
     const clickText = document.querySelector(".clickText");
     const emptyContentText = document.querySelector(".emptyContent");
@@ -24,7 +28,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (message.isLoading) {
       document.querySelector(".selectDiv").classList.add("hidden");
       loadingAnim.classList.remove("hidden");
-      document.getElementById("contentImage").querySelector("img").src = "../media/gifs/loading_img.gif";
+      document.getElementById("contentImage").querySelector("img").src =
+        "../media/gifs/loading_img.gif";
       clickText.textContent = "Loading...";
       clickText.classList.remove("clickTextAnim1");
       clickText.classList.add("clickTextAnim2");
@@ -57,8 +62,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const contentYearElement = document.getElementById("contentYear");
     const contentRuntimeElement = document.getElementById("contentRuntime");
     const contentGenresElement = document.getElementById("contentGenres");
-    const contentImageElement = document.getElementById("contentImage").querySelector("img");
-    const contentLinkElement = document.getElementById("contentImage").querySelector("a");
+    const contentImageElement = document
+      .getElementById("contentImage")
+      .querySelector("img");
+    const contentLinkElement = document
+      .getElementById("contentImage")
+      .querySelector("a");
     contentContainer.removeAttribute("hidden");
     contentNameElement.textContent = data.content.rndContentName;
     contentRatingElement.textContent = data.content.rndContentImdbRating;
@@ -75,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const sliderValue = document.querySelector(".sliderValue");
   const sliderInput = document.querySelector(".ratingSlider");
   const selectDelay = document.getElementById("delaySelect");
-  const typeDelay = document.getElementById("typeSelect");
+  const typeSelect = document.getElementById("typeSelect");
   let qmClicked = false;
 
   if (sliderInput.value === "0") {
@@ -98,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
     chrome.storage.sync.set({ ratingValue: sliderInput.value });
   });
 
-  // Listenin delay selection changes
+  // Listening delay selection changes.
 
   selectDelay.addEventListener("change", function () {
     chrome.storage.sync.set({
@@ -106,11 +115,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Listenin delay selection changes
+  // Listening delay selection changes.
 
-  typeDelay.addEventListener("change", function () {
+  typeSelect.addEventListener("change", function () {
     chrome.storage.sync.set({
-      type: typeDelay.value
+      type: typeSelect.value
     });
   });
 
@@ -124,23 +133,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Getting visuals and inputs from storage.
 
-  chrome.storage.sync.get(["buttonStates", "speed", "type", "ratingValue"], function (result) {
-    if (result.buttonStates !== undefined) {
-      loadedBtnVisuals();
+  chrome.storage.sync.get(
+    ["buttonStates", "speed", "type", "ratingValue"],
+    function (result) {
+      if (result.buttonStates !== undefined) {
+        loadedBtnVisuals();
+      }
+      if (result.ratingValue) {
+        result.ratingValue === "0"
+          ? (sliderValue.textContent = "All")
+          : (sliderValue.textContent = "Lowest " + result.ratingValue);
+        sliderInput.value = result.ratingValue;
+      }
+      if (result.speed) {
+        selectDelay.value = result.speed;
+      }
+      if (result.type) {
+        typeSelect.value = result.type;
+      }
     }
-    if (result.ratingValue) {
-      result.ratingValue === "0"
-        ? (sliderValue.textContent = "All")
-        : (sliderValue.textContent = "Lowest " + result.ratingValue);
-      sliderInput.value = result.ratingValue;
-    }
-    if (result.speed) {
-      selectDelay.value = result.speed;
-    }
-    if (result.type) {
-      typeDelay.value = result.type;
-    }
-  });
+  );
 
   // Button listeners.
 
@@ -149,44 +161,53 @@ document.addEventListener("DOMContentLoaded", function () {
     const questionContainer = document.querySelector(".questionContainer");
     const contentContainer = document.querySelector(".contentContainer");
 
-    document.getElementById("contentLoadBtn").addEventListener("click", function () {
-      questionContainer.setAttribute("hidden", "");
-      qmClicked = !qmClicked;
-      chrome.tabs.query({ active: true, currentWindow: true }, function () {
-        chrome.tabs.sendMessage(currentTab.id, {
-          command: "loadButtonClicker",
-          delay: selectDelay.value,
-          type: typeDelay.value
-        });
-      });
-    });
-
-    document.getElementById("randomPickerBtn").addEventListener("click", function () {
-      questionContainer.setAttribute("hidden", "");
-      qmClicked = !qmClicked;
-      chrome.tabs.query({ active: true, currentWindow: true }, function () {
-        chrome.tabs.sendMessage(currentTab.id, {
-          command: "pickContent",
-          delay: selectDelay.value,
-          input: sliderInput.value,
-          type: typeDelay.value
-        });
-      });
-    });
-
-    document.querySelector(".questionMark").addEventListener("click", function () {
-      if (!qmClicked) {
-        questionContainer.removeAttribute("hidden");
-        contentContainer.setAttribute("hidden", "");
-        qmClicked = !qmClicked;
-      } else if (qmClicked && "" !== document.getElementById("contentName").textContent) {
-        questionContainer.setAttribute("hidden", "");
-        contentContainer.removeAttribute("hidden");
-        qmClicked = !qmClicked;
-      } else {
+    document
+      .getElementById("contentLoadBtn")
+      .addEventListener("click", function () {
         questionContainer.setAttribute("hidden", "");
         qmClicked = !qmClicked;
-      }
-    });
+        chrome.tabs.query({ active: true, currentWindow: true }, function () {
+          chrome.tabs.sendMessage(currentTab.id, {
+            command: "loadButtonClicker",
+            delay: selectDelay.value,
+            type: typeSelect.value
+          });
+        });
+      });
+
+    document
+      .getElementById("randomPickerBtn")
+      .addEventListener("click", function () {
+        questionContainer.setAttribute("hidden", "");
+        qmClicked = !qmClicked;
+        chrome.tabs.query({ active: true, currentWindow: true }, function () {
+          chrome.tabs.sendMessage(currentTab.id, {
+            command: "pickContent",
+            delay: selectDelay.value,
+            input: sliderInput.value,
+            type: typeSelect.value
+          });
+        });
+      });
+
+    document
+      .querySelector(".questionMark")
+      .addEventListener("click", function () {
+        if (!qmClicked) {
+          questionContainer.removeAttribute("hidden");
+          contentContainer.setAttribute("hidden", "");
+          qmClicked = !qmClicked;
+        } else if (
+          qmClicked &&
+          "" !== document.getElementById("contentName").textContent
+        ) {
+          questionContainer.setAttribute("hidden", "");
+          contentContainer.removeAttribute("hidden");
+          qmClicked = !qmClicked;
+        } else {
+          questionContainer.setAttribute("hidden", "");
+          qmClicked = !qmClicked;
+        }
+      });
   });
 });

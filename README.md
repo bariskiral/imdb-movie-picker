@@ -13,7 +13,7 @@ The extension only works with IMDb Watchlist because normal user lists have pagi
 
 ## How do you use it?
 
-When you are on your watchlist extension can be used to load all content from the list. After that, you can randomly select an element (Movie / TV Series / Documentary etc.). There is a slider for filtering the ratings. If you set the slider "0" which is the default value, the extension can pick the unreleased contents as well.
+When you are on your watchlist extension can be used to load all content from the list. After that, you can randomly select an element (Movie / TV Series / Documentary etc.). There is a slider for filtering the ratings. If you set the slider "All" which is the default value, the extension can pick the unreleased contents as well.
 
 ## How does it work?
 
