@@ -1,8 +1,4 @@
 let isClicked = false;
-//???:
-// Are Promises really needed?
-//TODO:
-//Test it with long and very short lists.
 
 const loadButtonClicker = delay => {
   const loadButton = document.querySelector(".ipc-see-more__button");
@@ -31,7 +27,7 @@ const loadButtonClicker = delay => {
 
     setTimeout(() => {
       window.scrollTo(0, 0);
-    }, delay / 2);
+    }, delay);
   }
 };
 
@@ -121,15 +117,8 @@ const collectContent = async (contents, delay) => {
   }
 };
 
-//BUG: There is no more anchor. Scrolling to items rn and it's not working great.
-
 const scrollToContent = () => {
-  const listItems = document.querySelectorAll(
-    ".ipc-metadata-list-summary-item"
-  );
-  Array.from(listItems).map(item => {
-    return item.scrollIntoView();
-  });
+  window.scrollTo(0, document.body.scrollHeight);
 };
 
 const changeListView = () => {
@@ -145,7 +134,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   const delay = message.delay;
   const input = message.input;
   if (message.command === "loadButtonClicker" && !isClicked) {
-    Promise.all([loadButtonClicker(delay), scrollToContent()]);
+    loadButtonClicker(delay).then(() => {
+      scrollToContent();
+    });
   } else if (message.command === "pickContent" && !isClicked) {
     pickContent(delay, input);
   }
