@@ -178,6 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document
       .getElementById("randomPickerBtn")
       .addEventListener("click", function () {
+        console.log(sliderInput.value, selectDelay.value, typeSelect.value);
         questionContainer.setAttribute("hidden", "");
         qmClicked = !qmClicked;
         chrome.tabs.query({ active: true, currentWindow: true }, function () {

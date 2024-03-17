@@ -1,3 +1,4 @@
+//TODO: Now this extension can work with normal lists too.
 const regexPattern = /https:\/\/www\.imdb\.com.*watchlist/;
 const regexChromeExtensionsTab = /chrome:\/\/extensions/;
 let currentListID = null;
@@ -14,7 +15,10 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       path: "/media/logos/IMDb_Logo_16.png",
       tabId: tabId
     });
-    if ((changeInfo.status === "complete" && tabId !== currentListID) || changeInfo.status === "loading") {
+    if (
+      (changeInfo.status === "complete" && tabId !== currentListID) ||
+      changeInfo.status === "loading"
+    ) {
       resetStorage(tabId);
     }
   } else if (regexChromeExtensionsTab.test(tab.url)) {
