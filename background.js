@@ -1,9 +1,8 @@
-//TODO: Now this extension can work with normal lists too.
-const regexPattern = /https:\/\/www\.imdb\.com.*watchlist/;
+const regexPattern =
+  /https:\/\/www\.imdb\.com\/(?:user\/(\w+)\/(watchlist|rating)|list\/(\w+))/;
+
 const regexChromeExtensionsTab = /chrome:\/\/extensions/;
 let currentListID = null;
-
-// Tab control
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (regexPattern.test(tab.url)) {
@@ -51,6 +50,5 @@ const resetStorage = tabId => {
   chrome.storage.sync.remove("buttonStates");
   chrome.storage.sync.remove("ratingValue");
   chrome.storage.sync.remove("speed");
-  chrome.storage.sync.remove("type");
   currentListID = tabId;
 };

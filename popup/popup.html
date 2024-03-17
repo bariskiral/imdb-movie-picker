@@ -10,7 +10,7 @@
   <body>
     <div class="container">
       <div class="row">
-        <div class="popupHeader">IMDb Picker (NEW)</div>
+        <div class="popupHeader">IMDb Picker</div>
         <button class="questionMark">
           <img
             class="qMark"
@@ -27,15 +27,10 @@
       <div class="row">
         <div class="selectDiv">
           <select id="delaySelect">
-            <option value="500">Fast (0.5s)</option>
-            <option value="1000 " selected>Normal (1s)</option>
-            <option value="3000">Slow (3s)</option>
-            <option value="5000">Potato (5s)</option>
-          </select>
-          <select id="typeSelect">
-            <option value="1" selected>All</option>
-            <option value="2">Movies</option>
-            <option value="3">TV Series</option>
+            <option value="500">Fast (0.5 sec)</option>
+            <option value="1000 " selected>Normal (1 sec)</option>
+            <option value="3000">Slow (3 sec)</option>
+            <option value="5000">Potato (5 sec)</option>
           </select>
         </div>
         <div>
@@ -71,9 +66,9 @@
         <div>
           <div class="aboutPage">
             <p>
-              You can randomly select content from your IMDb Watchlist.
-              <br />The first option is for internet speed and the second is for
-              content filter.<br />If something goes wrong just reload the page.
+              You can randomly select a title from your IMDb lists.
+              <br />For advanced title filter, use IMDb's own filter on the
+              lists.<br />If something goes wrong just reload the page.
             </p>
             <a
               href="https://github.com/bariskiral/imdb-picker/blob/main/README.md"
@@ -118,7 +113,7 @@
 
         <div class="row" id="contentYear"></div>
         <div class="row" id="contentRuntime"></div>
-        <div class="row" id="contentGenres"></div>
+        <div class="row" id="IDK"></div>
       </div>
       <div hidden class="emptyContent">
         There is no content with this filters.

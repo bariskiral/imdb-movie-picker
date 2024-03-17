@@ -61,7 +61,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const contentRatingElement = document.getElementById("contentRating");
     const contentYearElement = document.getElementById("contentYear");
     const contentRuntimeElement = document.getElementById("contentRuntime");
-    const contentGenresElement = document.getElementById("contentGenres");
     const contentImageElement = document
       .getElementById("contentImage")
       .querySelector("img");
@@ -76,7 +75,6 @@ document.addEventListener("DOMContentLoaded", function () {
     contentImageElement.removeAttribute("hidden");
     contentYearElement.textContent = data.content.rndContentYear;
     contentRuntimeElement.textContent = data.content.rndContentRuntime;
-    contentGenresElement.textContent = data.content.rndContentGenres;
   };
 
   // Initial values.
@@ -84,20 +82,19 @@ document.addEventListener("DOMContentLoaded", function () {
   const sliderValue = document.querySelector(".sliderValue");
   const sliderInput = document.querySelector(".ratingSlider");
   const selectDelay = document.getElementById("delaySelect");
-  const typeSelect = document.getElementById("typeSelect");
   let qmClicked = false;
 
   if (sliderInput.value === "0") {
-    sliderValue.textContent = "All";
+    sliderValue.textContent = "All Titles";
   } else {
-    sliderValue.textContent = "Lowest " + sliderInput.value;
+    sliderValue.textContent = "Min " + sliderInput.value;
   }
 
   sliderInput.addEventListener("input", event => {
     if (sliderInput.value === "0") {
-      sliderValue.textContent = "All";
+      sliderValue.textContent = "All Titles";
     } else {
-      sliderValue.textContent = "Lowest " + event.target.value;
+      sliderValue.textContent = "Min " + event.target.value;
     }
   });
 
@@ -115,14 +112,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Listening delay selection changes.
-
-  typeSelect.addEventListener("change", function () {
-    chrome.storage.sync.set({
-      type: typeSelect.value
-    });
-  });
-
   // Getting content from storage.
 
   chrome.storage.sync.get(["content"], function (result) {
@@ -134,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Getting visuals and inputs from storage.
 
   chrome.storage.sync.get(
-    ["buttonStates", "speed", "type", "ratingValue"],
+    ["buttonStates", "speed", "ratingValue"],
     function (result) {
       if (result.buttonStates !== undefined) {
         loadedBtnVisuals();
@@ -147,9 +136,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       if (result.speed) {
         selectDelay.value = result.speed;
-      }
-      if (result.type) {
-        typeSelect.value = result.type;
       }
     }
   );
@@ -169,8 +155,7 @@ document.addEventListener("DOMContentLoaded", function () {
         chrome.tabs.query({ active: true, currentWindow: true }, function () {
           chrome.tabs.sendMessage(currentTab.id, {
             command: "loadButtonClicker",
-            delay: selectDelay.value,
-            type: typeSelect.value
+            delay: selectDelay.value
           });
         });
       });
@@ -178,15 +163,14 @@ document.addEventListener("DOMContentLoaded", function () {
     document
       .getElementById("randomPickerBtn")
       .addEventListener("click", function () {
-        console.log(sliderInput.value, selectDelay.value, typeSelect.value);
+        console.log(sliderInput.value, selectDelay.value);
         questionContainer.setAttribute("hidden", "");
         qmClicked = !qmClicked;
         chrome.tabs.query({ active: true, currentWindow: true }, function () {
           chrome.tabs.sendMessage(currentTab.id, {
             command: "pickContent",
             delay: selectDelay.value,
-            input: sliderInput.value,
-            type: typeSelect.value
+            input: sliderInput.value
           });
         });
       });
