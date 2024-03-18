@@ -1,34 +1,31 @@
 let isClicked = false;
 
 const loadButtonClicker = delay => {
-  const loadButton = document.querySelector(".ipc-see-more__button");
-  isClicked = true;
+  console.log("started");
+  return new Promise(resolve => {
+    const clickLoadButton = () => {
+      const loadButton = document.querySelector(".ipc-see-more__button");
 
-  chrome.runtime.sendMessage({
-    isLoading: true
+      if (loadButton) {
+        isClicked = true;
+        chrome.runtime.sendMessage({ isLoading: true });
+        loadButton.click();
+        setTimeout(() => {
+          console.log("clicked");
+          //scrollToContent();
+          clickLoadButton();
+        }, delay);
+      } else {
+        //scrollToContent();
+        chrome.runtime.sendMessage({ isLoading: false });
+        isClicked = false;
+        console.log("no more button");
+        resolve();
+      }
+    };
+
+    clickLoadButton();
   });
-
-  changeListView();
-
-  if (loadButton) {
-    loadButton.click();
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(loadButtonClicker(delay));
-        scrollToContent();
-      }, delay);
-    });
-  } else {
-    chrome.runtime.sendMessage({
-      isLoading: false
-    });
-    isClicked = false;
-
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, delay);
-  }
 };
 
 const pickContent = (delay, input) => {
@@ -135,7 +132,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   const input = message.input;
   if (message.command === "loadButtonClicker" && !isClicked) {
     loadButtonClicker(delay).then(() => {
-      scrollToContent();
+      window.scrollTo(0, 0);
+      console.log("finished");
     });
   } else if (message.command === "pickContent" && !isClicked) {
     pickContent(delay, input);
