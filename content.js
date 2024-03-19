@@ -1,8 +1,9 @@
 let isClicked = false;
 
+// Clicking the "See More" button if there is one.
+
 const loadButtonClicker = delay => {
-  console.log("started");
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     const clickLoadButton = () => {
       const loadButton = document.querySelector(".ipc-see-more__button");
 
@@ -11,29 +12,26 @@ const loadButtonClicker = delay => {
         chrome.runtime.sendMessage({ isLoading: true });
         loadButton.click();
         setTimeout(() => {
-          console.log("clicked");
-          //scrollToContent();
           clickLoadButton();
         }, delay);
       } else {
-        //scrollToContent();
-        chrome.runtime.sendMessage({ isLoading: false });
-        isClicked = false;
-        console.log("no more button");
         resolve();
       }
     };
-
+    changeListView();
     clickLoadButton();
+  }).catch(error => {
+    console.error("Error occurred while loading: ", error);
   });
 };
+
+// Picking title from the list.
 
 const pickContent = (delay, input) => {
   changeListView();
   const initialContent = document.querySelectorAll(
     ".ipc-metadata-list-summary-item"
   );
-
   const contentsArray = Array.from(initialContent).map((_content, index) => ({
     contentRating:
       +_content
@@ -41,8 +39,6 @@ const pickContent = (delay, input) => {
         ?.textContent.split(/\s+/)[0] || "N/A",
     index
   }));
-
-  console.log(contentsArray);
 
   const filteredContent = contentsArray.filter(content => {
     if (input === "0") {
@@ -62,6 +58,8 @@ const pickContent = (delay, input) => {
   }
 };
 
+// Getting the data of the selected title.
+
 const collectContent = async (contents, delay) => {
   isClicked = true;
 
@@ -69,11 +67,8 @@ const collectContent = async (contents, delay) => {
     isLoading: true
   });
 
-  //???: Do I need the scroll? Seems like no. Test it on long lists.
-  //contents.scrollIntoView();
-
   const rndContentName = (
-    contents.querySelector(".ipc-title__text")?.textContent || "UNKNOWN"
+    contents.querySelector(".ipc-title__text")?.textContent || "UNKNOWN TITLE"
   ).replace(/^\s*\d+\.\s*/, "");
   const rndContentLink =
     contents.querySelector(".ipc-title-link-wrapper")?.href || "#";
@@ -85,6 +80,9 @@ const collectContent = async (contents, delay) => {
           : "/media/logos/IMDb_Logo_128_Alt.png"
       );
     }, delay / 2);
+  }).catch(error => {
+    console.error("Error occurred during image retrieval: ", error);
+    return "/media/logos/IMDb_Logo_128_Alt.png";
   });
   const rndContentYear =
     contents.querySelector(".dli-title-metadata span")?.textContent ||
@@ -114,9 +112,23 @@ const collectContent = async (contents, delay) => {
   }
 };
 
-const scrollToContent = () => {
+// Scroll to the bottom of the page to trigger lazy loading.
+
+const scrollToBottom = delay => {
   window.scrollTo(0, document.body.scrollHeight);
+  const scrollInterval = setInterval(function () {
+    if (window.scrollY + window.innerHeight >= document.body.scrollHeight) {
+      clearInterval(scrollInterval);
+      chrome.runtime.sendMessage({ isLoading: false });
+      isClicked = false;
+      window.scrollTo(0, 0);
+    } else {
+      window.scrollTo(0, document.body.scrollHeight);
+    }
+  }, delay);
 };
+
+// Change the list view if the user uses a different view. This is necessary to get the data properly.
 
 const changeListView = () => {
   const viewButton = document.querySelector("#list-view-option-detailed");
@@ -127,14 +139,19 @@ const changeListView = () => {
   }
 };
 
+// Getting messages from popup.
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   const delay = message.delay;
   const input = message.input;
   if (message.command === "loadButtonClicker" && !isClicked) {
-    loadButtonClicker(delay).then(() => {
-      window.scrollTo(0, 0);
-      console.log("finished");
-    });
+    loadButtonClicker(delay)
+      .then(() => {
+        scrollToBottom(delay);
+      })
+      .catch(error => {
+        console.error("Error occurred while loading: ", error);
+      });
   } else if (message.command === "pickContent" && !isClicked) {
     pickContent(delay, input);
   }

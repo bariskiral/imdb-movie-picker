@@ -38,7 +38,7 @@ button:disabled {
   border-color: var(--disabled-color);
   background-color: var(--disabled-color);
   color: var(--imdb-dark-color);
-  cursor: not-allowed;
+  cursor: default;
 }
 
 select {
@@ -63,6 +63,7 @@ select:hover {
 
 img.contentCover {
   border: var(--imdb-color) solid 0.25rem;
+  border-radius: 0.5rem;
   transition: border-color 0.5s;
 }
 
@@ -114,6 +115,7 @@ img:hover.contentCover {
 
 #contentName {
   font-weight: bold;
+  min-height: 2.5rem;
 }
 
 .qMark {
@@ -168,7 +170,7 @@ img:hover.contentCover {
 }
 
 .clickTextAnim2 {
-  animation: heart 1s infinite ease-in-out;
+  animation: loading 1s infinite ease-in-out;
 }
 
 .loadingAnimation {
@@ -219,6 +221,17 @@ img:hover.contentCover {
   0%,
   100% {
     color: red;
+  }
+
+  50% {
+    color: var(--imdb-color);
+  }
+}
+
+@keyframes loading {
+  0%,
+  100% {
+    color: white;
   }
 
   50% {

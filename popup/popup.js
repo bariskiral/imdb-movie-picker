@@ -112,19 +112,15 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Getting content from storage.
-
-  chrome.storage.sync.get(["content"], function (result) {
-    if (result.content) {
-      contentReceiver(result);
-    }
-  });
-
-  // Getting visuals and inputs from storage.
+  // Getting title, visuals and inputs from storage.
 
   chrome.storage.sync.get(
-    ["buttonStates", "speed", "ratingValue"],
+    ["content", "buttonStates", "speed", "ratingValue"],
     function (result) {
+      if (result.content) {
+        contentReceiver(result);
+      }
+
       if (result.buttonStates !== undefined) {
         loadedBtnVisuals();
       }
@@ -163,7 +159,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document
       .getElementById("randomPickerBtn")
       .addEventListener("click", function () {
-        console.log(sliderInput.value, selectDelay.value);
         questionContainer.setAttribute("hidden", "");
         qmClicked = !qmClicked;
         chrome.tabs.query({ active: true, currentWindow: true }, function () {

@@ -21,7 +21,7 @@
         </button>
       </div>
       <div class="row">
-        <button id="contentLoadBtn">Load All</button>
+        <button id="contentLoadBtn"></button>
         <button disabled id="randomPickerBtn">Random Pick</button>
       </div>
       <div class="row">
@@ -66,10 +66,18 @@
         <div>
           <div class="aboutPage">
             <p>
-              You can randomly select a title from your IMDb lists.
-              <br />For advanced title filter, use IMDb's own filter on the
-              lists.<br />If something goes wrong just reload the page.
+              You can adjust the delay value depending on your internet speed.
             </p>
+            <p>
+              For advanced title filters, use IMDb's own filter on the lists.
+              <span>
+                <img
+                  style="height: 1rem; width: 1rem"
+                  src="/media/images/filter.png"
+                />
+              </span>
+            </p>
+            <p>If something goes wrong just reload the page.</p>
             <a
               href="https://github.com/bariskiral/imdb-picker/blob/main/README.md"
               target="_blank"
@@ -113,7 +121,6 @@
 
         <div class="row" id="contentYear"></div>
         <div class="row" id="contentRuntime"></div>
-        <div class="row" id="IDK"></div>
       </div>
       <div hidden class="emptyContent">
         There is no content with this filters.
