@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (result.ratingValue) {
         result.ratingValue === "0"
           ? (sliderValue.textContent = "All")
-          : (sliderValue.textContent = "Lowest " + result.ratingValue);
+          : (sliderValue.textContent = "Min " + result.ratingValue);
         sliderInput.value = result.ratingValue;
       }
       if (result.speed) {
@@ -166,6 +166,16 @@ document.addEventListener("DOMContentLoaded", function () {
             command: "pickContent",
             delay: selectDelay.value,
             input: sliderInput.value
+          });
+        });
+      });
+
+    document
+      .getElementById("imdbFilterBtn")
+      .addEventListener("click", function () {
+        chrome.tabs.query({ active: true, currentWindow: true }, function () {
+          chrome.tabs.sendMessage(currentTab.id, {
+            command: "filterButtonClicker"
           });
         });
       });

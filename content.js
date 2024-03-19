@@ -1,4 +1,5 @@
 let isClicked = false;
+let prevRnd = null;
 
 // Clicking the "See More" button if there is one.
 
@@ -49,7 +50,12 @@ const pickContent = (delay, input) => {
   });
 
   if (filteredContent.length > 0) {
-    const rnd = Math.floor(Math.random() * filteredContent.length);
+    let rnd;
+    do {
+      rnd = Math.floor(Math.random() * filteredContent.length);
+    } while (rnd === prevRnd);
+
+    prevRnd = rnd;
     collectContent(initialContent[filteredContent[rnd].index], delay);
   } else {
     chrome.runtime.sendMessage({
@@ -139,6 +145,10 @@ const changeListView = () => {
   }
 };
 
+const filterButtonClicker = () => {
+  document.querySelector(".ipc-chip-dropdown__chip").click();
+};
+
 // Getting messages from popup.
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -154,5 +164,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       });
   } else if (message.command === "pickContent" && !isClicked) {
     pickContent(delay, input);
+  } else if (message.command === "filterButtonClicker") {
+    filterButtonClicker();
   }
 });

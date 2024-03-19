@@ -21,7 +21,7 @@
         </button>
       </div>
       <div class="row">
-        <button id="contentLoadBtn"></button>
+        <button id="contentLoadBtn">Load All</button>
         <button disabled id="randomPickerBtn">Random Pick</button>
       </div>
       <div class="row">
@@ -62,6 +62,10 @@
         </div>
         <div class="clickText clickTextAnim1">Click the "Load All" button</div>
       </div>
+      <div class="row filterRow" style="max-height: 1.5rem">
+        <span>Advanced Filters 👉 </span>
+        <button id="imdbFilterBtn"></button>
+      </div>
       <div hidden class="questionContainer">
         <div>
           <div class="aboutPage">
@@ -70,12 +74,6 @@
             </p>
             <p>
               For advanced title filters, use IMDb's own filter on the lists.
-              <span>
-                <img
-                  style="height: 1rem; width: 1rem"
-                  src="/media/images/filter.png"
-                />
-              </span>
             </p>
             <p>If something goes wrong just reload the page.</p>
             <a
