@@ -16,6 +16,7 @@ When you are on any IMDB list, the extension can be used to load all content fro
 - When you click the "Load All" button, the extension tries to find a "Load More" button on the page. It clicks it to load the whole list.
 - To get the data, the extension scrolls to the bottom of the page to trigger the lazy loading.
 - After that, If you click the "Random Pick" button, you will get a random title from the list.
+- You use the filter button to use IMDb's filter for advanced filtering.
 - Without an API this is the only logical way that I can think of to load all data and images. With scrolling... At least the new IMDb website is better than the older version.
 
 ## FAQ
