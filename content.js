@@ -1,67 +1,61 @@
 let isClicked = false;
+let prevRnd = null;
 
-// Clicking the "LOAD MORE" button until there is no "LOAD MORE" button.
+// Clicking the "See More" button if there is one.
 
-const loadButtonClicker = delay => {
-  const loadButton = document.querySelector(".load-more");
-  isClicked = true;
+const loadButtonClicker = async delay => {
+  return await new Promise((resolve, reject) => {
+    const clickLoadButton = () => {
+      const loadButton = document.querySelector(".ipc-see-more__button");
 
-  chrome.runtime.sendMessage({
-    isLoading: true
+      if (loadButton) {
+        isClicked = true;
+        chrome.runtime.sendMessage({ isLoading: true });
+        loadButton.click();
+        setTimeout(() => {
+          clickLoadButton();
+        }, delay);
+      } else {
+        resolve();
+      }
+    };
+    changeListView();
+    clickLoadButton();
+  }).catch(error => {
+    console.error("Error occurred while loading: ", error);
   });
-
-  if (loadButton) {
-    loadButton.click();
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(loadButtonClicker(delay));
-        scrollToAnchor();
-      }, delay);
-    });
-  } else {
-    chrome.runtime.sendMessage({
-      isLoading: false
-    });
-    isClicked = false;
-
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, delay / 2);
-  }
 };
 
-// Filtering the content element with rating and type input and then picking a random element.
+// Picking title from the list.
 
-const pickContent = (delay, type, input) => {
-  const initialContent = document.querySelectorAll(".lister-item");
-
+const pickContent = (delay, input) => {
+  changeListView();
+  const initialContent = document.querySelectorAll(
+    ".ipc-metadata-list-summary-item"
+  );
   const contentsArray = Array.from(initialContent).map((_content, index) => ({
-    contentRating: _content.querySelector(".ratings-imdb-rating"),
-    contentType: _content.classList.contains("featureFilm"),
+    contentRating:
+      +_content
+        .querySelector(".ipc-rating-star--imdb")
+        ?.textContent.split(/\s+/)[0] || "N/A",
     index
   }));
 
   const filteredContent = contentsArray.filter(content => {
-    if (input === "0" && type === "1") {
+    if (input === "0") {
       return content;
-    } else if (content.contentRating && type === "1") {
-      return +content.contentRating.textContent >= +input;
-    } else if (content.contentRating && type === "2") {
-      return +content.contentRating.textContent >= +input && content.contentType;
-    } else if (content.contentRating && type === "3") {
-      return +content.contentRating.textContent >= +input && !content.contentType;
-    } else if (input === "0" && type === "2") {
-      return content.contentType;
-    } else if (input === "0" && type === "3") {
-      return !content.contentType;
     } else {
-      return false;
+      return content.contentRating >= +input;
     }
   });
 
   if (filteredContent.length > 0) {
-    const rnd = Math.floor(Math.random() * filteredContent.length);
+    let rnd;
+    do {
+      rnd = Math.floor(Math.random() * filteredContent.length);
+    } while (rnd === prevRnd);
+
+    prevRnd = rnd;
     collectContent(initialContent[filteredContent[rnd].index], delay);
   } else {
     chrome.runtime.sendMessage({
@@ -70,7 +64,7 @@ const pickContent = (delay, type, input) => {
   }
 };
 
-// Collecting all the data from select random element.
+// Getting the data of the selected title.
 
 const collectContent = async (contents, delay) => {
   isClicked = true;
@@ -79,29 +73,34 @@ const collectContent = async (contents, delay) => {
     isLoading: true
   });
 
-  contents.scrollIntoView();
-
-  const rndContentName = contents.querySelector(".lister-item-header a")?.textContent || "UNKNOWN";
-  const rndContentLink = contents.querySelector(".lister-item-header a")?.href || "#";
+  const rndContentName = (
+    contents.querySelector(".ipc-title__text")?.textContent || "UNKNOWN TITLE"
+  ).replace(/^\s*\d+\.\s*/, "");
+  const rndContentLink =
+    contents.querySelector(".ipc-title-link-wrapper")?.href || "#";
   const rndContentImage = await new Promise(resolve => {
     setTimeout(() => {
       resolve(
-        contents.querySelector(".lister-item-image a img").src.includes("https://m.media-amazon.com")
-          ? contents.querySelector(".lister-item-image a img").src
+        contents.querySelector(".ipc-image")
+          ? contents.querySelector(".ipc-image").src
           : "/media/logos/IMDb_Logo_128_Alt.png"
       );
     }, delay / 2);
+  }).catch(error => {
+    console.error("Error occurred during image retrieval: ", error);
+    return "/media/logos/IMDb_Logo_128_Alt.png";
   });
-  const rndContentYear = contents.querySelector(".lister-item-year")?.textContent || "Year TBA";
-  const rndContentRuntime = contents.querySelector(".runtime")
-    ? contents.querySelector(".runtime").textContent
-    : contents.classList.contains("featureFilm")
-    ? "Run Time TBA"
-    : contents
-        .querySelector(".lister-item-details")
-        .children[2].textContent.replace(/(\d+)eps/g, "$1 Episodes TV Series");
-  const rndContentGenres = contents.querySelector(".genre")?.textContent || "Genres are not Available";
-  const rndContentImdbRating = contents.querySelector(".ratings-imdb-rating")?.textContent || "Not Released";
+  const rndContentYear =
+    contents.querySelector(".dli-title-metadata span")?.textContent ||
+    "Year TBA";
+  const rndContentRuntime = contents.querySelector(
+    ".dli-title-metadata span:nth-child(2)"
+  )
+    ? contents.querySelector(".dli-title-metadata span:nth-child(2)")
+        .textContent
+    : "Run Time TBA";
+  const rndContentImdbRating =
+    contents.querySelector(".ipc-rating-star")?.textContent || "Not Released";
 
   if (isClicked) {
     chrome.runtime.sendMessage({
@@ -111,7 +110,6 @@ const collectContent = async (contents, delay) => {
         rndContentImage,
         rndContentYear,
         rndContentRuntime,
-        rndContentGenres,
         rndContentImdbRating
       },
       isLoading: false
@@ -120,24 +118,53 @@ const collectContent = async (contents, delay) => {
   }
 };
 
-// Scrolling to ".lister-page-anchor" named elements to stop lazy loading.
+// Scroll to the bottom of the page to trigger lazy loading.
 
-const scrollToAnchor = () => {
-  const listerPageAnchor = document.querySelectorAll(".lister-page-anchor");
-  Array.from(listerPageAnchor).map(anchor => {
-    return anchor.scrollIntoView();
-  });
+const scrollToBottom = delay => {
+  window.scrollTo(0, document.body.scrollHeight);
+  const scrollInterval = setInterval(function () {
+    if (window.scrollY + window.innerHeight >= document.body.scrollHeight) {
+      clearInterval(scrollInterval);
+      chrome.runtime.sendMessage({ isLoading: false });
+      isClicked = false;
+      window.scrollTo(0, 0);
+    } else {
+      window.scrollTo(0, document.body.scrollHeight);
+    }
+  }, delay);
 };
 
-// Listen messages for buttons.
+// Change the list view if the user uses a different view. This is necessary to get the data properly.
+
+const changeListView = () => {
+  const viewButton = document.querySelector("#list-view-option-detailed");
+  const listView = document.querySelector(".detailed-list-view");
+
+  if (!listView) {
+    viewButton.click();
+  }
+};
+
+const filterButtonClicker = () => {
+  document.querySelector(".ipc-chip-dropdown__chip").click();
+};
+
+// Getting messages from popup.
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   const delay = message.delay;
-  const type = message.type;
   const input = message.input;
-  if (message.command === "loadButtonClicker" && !isClicked) {
-    Promise.all([loadButtonClicker(delay), scrollToAnchor()]);
-  } else if (message.command === "pickContent" && !isClicked) {
-    pickContent(delay, type, input);
+  if (message.command === "loadButton" && !isClicked) {
+    loadButtonClicker(delay)
+      .then(() => {
+        scrollToBottom(delay);
+      })
+      .catch(error => {
+        console.error("Error occurred while loading: ", error);
+      });
+  } else if (message.command === "pickButton" && !isClicked) {
+    pickContent(delay, input);
+  } else if (message.command === "filterButton") {
+    filterButtonClicker();
   }
 });

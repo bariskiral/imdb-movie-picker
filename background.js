@@ -1,8 +1,7 @@
-const regexPattern = /https:\/\/www\.imdb\.com.*watchlist/;
+const regexPattern =
+  /https:\/\/www\.imdb\.com\/(?:user\/(\w+)\/(watchlist|rating)|list\/(\w+))/;
 const regexChromeExtensionsTab = /chrome:\/\/extensions/;
 let currentListID = null;
-
-// Tab control
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (regexPattern.test(tab.url)) {
@@ -14,7 +13,10 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       path: "/media/logos/IMDb_Logo_16.png",
       tabId: tabId
     });
-    if ((changeInfo.status === "complete" && tabId !== currentListID) || changeInfo.status === "loading") {
+    if (
+      (changeInfo.status === "complete" && tabId !== currentListID) ||
+      changeInfo.status === "loading"
+    ) {
       resetStorage(tabId);
     }
   } else if (regexChromeExtensionsTab.test(tab.url)) {
@@ -47,6 +49,5 @@ const resetStorage = tabId => {
   chrome.storage.sync.remove("buttonStates");
   chrome.storage.sync.remove("ratingValue");
   chrome.storage.sync.remove("speed");
-  chrome.storage.sync.remove("type");
   currentListID = tabId;
 };

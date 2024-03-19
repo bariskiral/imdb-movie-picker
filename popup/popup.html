@@ -27,15 +27,10 @@
       <div class="row">
         <div class="selectDiv">
           <select id="delaySelect">
-            <option value="500">Fast (0.5s)</option>
-            <option value="1000 " selected>Normal (1s)</option>
-            <option value="3000">Slow (3s)</option>
-            <option value="5000">Potato (5s)</option>
-          </select>
-          <select id="typeSelect">
-            <option value="1" selected>All</option>
-            <option value="2">Movies</option>
-            <option value="3">TV Series</option>
+            <option value="500">Fast (0.5 sec)</option>
+            <option value="1000 " selected>Normal (1 sec)</option>
+            <option value="3000">Slow (3 sec)</option>
+            <option value="5000">Potato (5 sec)</option>
           </select>
         </div>
         <div>
@@ -67,14 +62,20 @@
         </div>
         <div class="clickText clickTextAnim1">Click the "Load All" button</div>
       </div>
+      <div class="row filterRow" style="max-height: 1.5rem">
+        <span>Advanced Filters 👉 </span>
+        <button id="imdbFilterBtn"></button>
+      </div>
       <div hidden class="questionContainer">
         <div>
           <div class="aboutPage">
             <p>
-              You can randomly select content from your IMDb Watchlist.
-              <br />The first option is for internet speed and the second is for
-              content filter.<br />If something goes wrong just reload the page.
+              You can adjust the delay value depending on your internet speed.
             </p>
+            <p>
+              For advanced title filters, use IMDb's own filter on the lists.
+            </p>
+            <p>If something goes wrong just reload the page.</p>
             <a
               href="https://github.com/bariskiral/imdb-picker/blob/main/README.md"
               target="_blank"
@@ -118,7 +119,6 @@
 
         <div class="row" id="contentYear"></div>
         <div class="row" id="contentRuntime"></div>
-        <div class="row" id="contentGenres"></div>
       </div>
       <div hidden class="emptyContent">
         There is no content with this filters.

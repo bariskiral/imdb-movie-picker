@@ -61,7 +61,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const contentRatingElement = document.getElementById("contentRating");
     const contentYearElement = document.getElementById("contentYear");
     const contentRuntimeElement = document.getElementById("contentRuntime");
-    const contentGenresElement = document.getElementById("contentGenres");
     const contentImageElement = document
       .getElementById("contentImage")
       .querySelector("img");
@@ -76,7 +75,6 @@ document.addEventListener("DOMContentLoaded", function () {
     contentImageElement.removeAttribute("hidden");
     contentYearElement.textContent = data.content.rndContentYear;
     contentRuntimeElement.textContent = data.content.rndContentRuntime;
-    contentGenresElement.textContent = data.content.rndContentGenres;
   };
 
   // Initial values.
@@ -84,20 +82,19 @@ document.addEventListener("DOMContentLoaded", function () {
   const sliderValue = document.querySelector(".sliderValue");
   const sliderInput = document.querySelector(".ratingSlider");
   const selectDelay = document.getElementById("delaySelect");
-  const typeSelect = document.getElementById("typeSelect");
   let qmClicked = false;
 
   if (sliderInput.value === "0") {
-    sliderValue.textContent = "All";
+    sliderValue.textContent = "All Titles";
   } else {
-    sliderValue.textContent = "Lowest " + sliderInput.value;
+    sliderValue.textContent = "Min " + sliderInput.value;
   }
 
   sliderInput.addEventListener("input", event => {
     if (sliderInput.value === "0") {
-      sliderValue.textContent = "All";
+      sliderValue.textContent = "All Titles";
     } else {
-      sliderValue.textContent = "Lowest " + event.target.value;
+      sliderValue.textContent = "Min " + event.target.value;
     }
   });
 
@@ -115,41 +112,26 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Listening delay selection changes.
-
-  typeSelect.addEventListener("change", function () {
-    chrome.storage.sync.set({
-      type: typeSelect.value
-    });
-  });
-
-  // Getting content from storage.
-
-  chrome.storage.sync.get(["content"], function (result) {
-    if (result.content) {
-      contentReceiver(result);
-    }
-  });
-
-  // Getting visuals and inputs from storage.
+  // Getting title, visuals and inputs from storage.
 
   chrome.storage.sync.get(
-    ["buttonStates", "speed", "type", "ratingValue"],
+    ["content", "buttonStates", "speed", "ratingValue"],
     function (result) {
+      if (result.content) {
+        contentReceiver(result);
+      }
+
       if (result.buttonStates !== undefined) {
         loadedBtnVisuals();
       }
       if (result.ratingValue) {
         result.ratingValue === "0"
           ? (sliderValue.textContent = "All")
-          : (sliderValue.textContent = "Lowest " + result.ratingValue);
+          : (sliderValue.textContent = "Min " + result.ratingValue);
         sliderInput.value = result.ratingValue;
       }
       if (result.speed) {
         selectDelay.value = result.speed;
-      }
-      if (result.type) {
-        typeSelect.value = result.type;
       }
     }
   );
@@ -168,9 +150,8 @@ document.addEventListener("DOMContentLoaded", function () {
         qmClicked = !qmClicked;
         chrome.tabs.query({ active: true, currentWindow: true }, function () {
           chrome.tabs.sendMessage(currentTab.id, {
-            command: "loadButtonClicker",
-            delay: selectDelay.value,
-            type: typeSelect.value
+            command: "loadButton",
+            delay: selectDelay.value
           });
         });
       });
@@ -182,10 +163,19 @@ document.addEventListener("DOMContentLoaded", function () {
         qmClicked = !qmClicked;
         chrome.tabs.query({ active: true, currentWindow: true }, function () {
           chrome.tabs.sendMessage(currentTab.id, {
-            command: "pickContent",
+            command: "pickButton",
             delay: selectDelay.value,
-            input: sliderInput.value,
-            type: typeSelect.value
+            input: sliderInput.value
+          });
+        });
+      });
+
+    document
+      .getElementById("imdbFilterBtn")
+      .addEventListener("click", function () {
+        chrome.tabs.query({ active: true, currentWindow: true }, function () {
+          chrome.tabs.sendMessage(currentTab.id, {
+            command: "filterButton"
           });
         });
       });
