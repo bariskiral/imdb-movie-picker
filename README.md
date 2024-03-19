@@ -33,7 +33,7 @@ No.
 
 The only way to reset the extension is by closing the IMDb tab, reloading it or opening another IMDb watchlist. Apart from these, the extension will keep all the values and data.
 
-### Is it not working with the normal lists?
+### Is it working with the normal lists?
 
 YES! Previously it was working with only watchlists. Because IMBd had a totally different structure in their lists. But with the March 2024 update, they changed all the lists to the same design.
 
