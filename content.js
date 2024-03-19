@@ -3,8 +3,8 @@ let prevRnd = null;
 
 // Clicking the "See More" button if there is one.
 
-const loadButtonClicker = delay => {
-  return new Promise((resolve, reject) => {
+const loadButtonClicker = async delay => {
+  return await new Promise((resolve, reject) => {
     const clickLoadButton = () => {
       const loadButton = document.querySelector(".ipc-see-more__button");
 
@@ -154,7 +154,7 @@ const filterButtonClicker = () => {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   const delay = message.delay;
   const input = message.input;
-  if (message.command === "loadButtonClicker" && !isClicked) {
+  if (message.command === "loadButton" && !isClicked) {
     loadButtonClicker(delay)
       .then(() => {
         scrollToBottom(delay);
@@ -162,9 +162,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       .catch(error => {
         console.error("Error occurred while loading: ", error);
       });
-  } else if (message.command === "pickContent" && !isClicked) {
+  } else if (message.command === "pickButton" && !isClicked) {
     pickContent(delay, input);
-  } else if (message.command === "filterButtonClicker") {
+  } else if (message.command === "filterButton") {
     filterButtonClicker();
   }
 });

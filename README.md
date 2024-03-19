@@ -4,8 +4,8 @@ A Google extension that can be used to pick content from your lists.
 
 [![Chrome Web Store Logo](https://github-production-user-asset-6210df.s3.amazonaws.com/41836294/278406124-dd949506-47e1-4a7c-ba4a-31920e5f2c72.png)](https://chrome.google.com/webstore/detail/imdb-picker/fgphemfgilhlepdebnnejndnldgemfbg)
 
-![1](https://github.com/bariskiral/imdb-picker/assets/41836294/acc3b7fc-351f-4814-88b1-1b50100bcf82)
-![2](https://github.com/bariskiral/imdb-picker/assets/41836294/ba08b981-592d-4f49-bdee-b64e245f5c6b)
+![Screenshot_1](https://github.com/bariskiral/imdb-picker/assets/41836294/134b07f7-a05b-4497-a02e-3dd16d3759fd)
+![Screenshot_2](https://github.com/bariskiral/imdb-picker/assets/41836294/ad1aaba4-9058-4486-abc4-a37f1e229eb4)
 
 ## How do you use it?
 
@@ -13,9 +13,10 @@ When you are on any IMDB list, the extension can be used to load all content fro
 
 ## How does it work?
 
-- Basically, when you click the "Load All" button, the extension tries to find a "Load More" button on the page. It clicks it to load the whole list.
+- When you click the "Load All" button, the extension tries to find a "Load More" button on the page. It clicks it to load the whole list.
 - To get the data, the extension scrolls to the bottom of the page to trigger the lazy loading.
-- After that, If you click the "Random Pick" button you will get a random title from the list.
+- After that, If you click the "Random Pick" button, you will get a random title from the list.
+- You use the filter button to use IMDb's filter for advanced filtering.
 - Without an API this is the only logical way that I can think of to load all data and images. With scrolling... At least the new IMDb website is better than the older version.
 
 ## FAQ
@@ -42,7 +43,7 @@ Depends on your delay value but roughly (delay value \* item count / 25) seconds
 
 ### Why is it slow?
 
-Because IMDb not showing all the titles on the lists unless you load and scroll to them. If you choose a longer delay, it will take a lot more time. This is not using any API. If I had access to IMDb API this whole project would be 50 lines of code and every action takes not even 1 second.
+Because IMDb does not show all the titles on the lists unless you load and scroll to them. If you choose a longer delay, it will take a lot more time. This is not using any API. If I had access to IMDb API this whole project would be 50 lines of code and every action takes not even 1 second.
 
 ### Why is it fast?
 

@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
         qmClicked = !qmClicked;
         chrome.tabs.query({ active: true, currentWindow: true }, function () {
           chrome.tabs.sendMessage(currentTab.id, {
-            command: "loadButtonClicker",
+            command: "loadButton",
             delay: selectDelay.value
           });
         });
@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
         qmClicked = !qmClicked;
         chrome.tabs.query({ active: true, currentWindow: true }, function () {
           chrome.tabs.sendMessage(currentTab.id, {
-            command: "pickContent",
+            command: "pickButton",
             delay: selectDelay.value,
             input: sliderInput.value
           });
@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .addEventListener("click", function () {
         chrome.tabs.query({ active: true, currentWindow: true }, function () {
           chrome.tabs.sendMessage(currentTab.id, {
-            command: "filterButtonClicker"
+            command: "filterButton"
           });
         });
       });
