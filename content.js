@@ -50,13 +50,17 @@ const pickContent = (delay, input) => {
   });
 
   if (filteredContent.length > 0) {
-    let rnd;
-    do {
-      rnd = Math.floor(Math.random() * filteredContent.length);
-    } while (rnd === prevRnd);
+    if (filteredContent.length > 1) {
+      let rnd;
+      do {
+        rnd = Math.floor(Math.random() * filteredContent.length);
+      } while (rnd === prevRnd);
 
-    prevRnd = rnd;
-    collectContent(initialContent[filteredContent[rnd].index], delay);
+      prevRnd = rnd;
+      collectContent(initialContent[filteredContent[rnd].index], delay);
+    } else {
+      return collectContent(initialContent[0], delay);
+    }
   } else {
     chrome.runtime.sendMessage({
       emptyContent: true

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "IMDb Picker",
-  "version": "2.0",
+  "version": "2.1",
   "description": "A simple Chrome extension that allows you to pick a title from your lists.",
   "permissions": ["activeTab", "tabs", "storage"],
   "icons": {
